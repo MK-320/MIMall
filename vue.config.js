@@ -41,7 +41,7 @@ module.exports={
     // name: name,TODO:这里有问题暂时先注释了
     resolve: {
       alias: {
-        // 设置@/的意义
+        // 设置@为src目录
         '@': resolve('src')
       }
     }
