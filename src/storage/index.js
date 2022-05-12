@@ -38,6 +38,7 @@ export default {
          let obj =   this.getStorage();
          if(module_name){
              //删除某个模块下面的某个值
+             if(!obj[module_name]) return ;
              delete obj[module_name][key];
          }else{
              //如果没有传入模块，就直接删除整个属性

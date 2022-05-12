@@ -6,7 +6,8 @@ import VueAxios from "vue-axios";
 
 //插件放上面，组件放下面是
 import App from './App.vue'
-
+//一定要加 ./ 表示当前的目录，不加的话，他会默认认为是一个插件
+import env from "./env"
 //将axios挂载到Vue实例上去
 Vue.use(VueAxios, axios);
 
@@ -16,6 +17,8 @@ Vue.config.productionTip = false
 //    /api/a/b  => /a/b  /api被pathRewrite了
 axios.defaults.baseURL = "/api";
 axios.defaults.timeout = 5000;
+//根据不同的环境变量获取不同的接口地址np
+axios.defaults.baseURL=env.baseURl
 //接口错误拦截 这里没有做请求拦截
 axios.interceptors.response.use(function (response) {
     //用axios的拦截器对所有的返回值（可以得到一个返回值对象）进行拦截，通过之后在进行处理
@@ -26,7 +29,7 @@ axios.interceptors.response.use(function (response) {
     } else if (res.status === 10) {
         //这个项目中规定，状态码返回10 代表未登录
         //由于这里在main中，this的指向不是vue实例，而是window，所以使用路由跳转没有用，只有在app.vue或者组件中this的指向才是vue
-        window.location.href = "/#/login";
+        window.location.href = "/#/login";//另外这里用的是hash，所以要加 #
     } else {
         //否则就是错误信息
         alert(res.msg)
