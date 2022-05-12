@@ -5,13 +5,10 @@
 </template>
 
 <script>
-
-
+// import Storage  from "@/storage/index";
 export default {
   name: 'App',
-  components: {
-
-  }
+  components: {},
 }
 </script>
 
