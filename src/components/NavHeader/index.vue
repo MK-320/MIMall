@@ -121,7 +121,7 @@ export default {
   name: 'nav-header',
   data(){
     return{
-      username:'慕颖泉',
+      username:'jack',
       phoneList:[]
     }
   },mounted() {
@@ -157,7 +157,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "@/assets/scss/base.scss";
 @import "@/assets/scss/mixin.scss";
 @import "@/assets/scss/config.scss";
@@ -246,6 +246,7 @@ export default {
             .children{
               height: 220px;
               opacity: 1;
+
             }
           }
           .children{
@@ -260,6 +261,7 @@ export default {
             box-shadow: 0px 7px 6px 0px rgba(0,0,0,.11);
             z-index: 10;
             transition:all .5s;
+            background-color: #ffffff;
             .product{
               float: left;
               width: 16.6%;

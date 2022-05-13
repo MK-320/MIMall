@@ -26,7 +26,7 @@ export default new Router({
                 {
                     path:'/index',
                     name:'index',
-                    component:()=>import('@/components/index/index')
+                    component:()=>import('@/views/index/index')
                 },{
                     path:'/product/:id',//动态传入参数
                     name:'product',

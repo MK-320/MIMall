@@ -5,13 +5,13 @@
       <p>小米商城</p>
     </div>
     <div class="footer-link">
-      <a href="" target="_blank">慕颖泉的主页</a><span>|</span>
+      <a href="" target="_blank">drgeek的主页</a><span>|</span>
       <a href="https://home.miui.com/" target="_blank">MIUI</a><span>|</span>
       <a href="https://home.mi.com/index.html" target="_blank">米家</a><span>|</span>
       <a href="http://www.miliao.com/" target="_blank">米聊</a><span>|</span>
       <a href="https://xiaomi.tmall.com/" target="_blank">小米天猫店</a>
     </div>
-    <div class="copyright">Copyright ©2020 <span class="domain">慕颖泉</span> All Rights Reserved.</div>
+    <div class="copyright">Copyright ©2020 <span class="domain">drgeek</span> All Rights Reserved.</div>
   </div>
 </template>
 <script>

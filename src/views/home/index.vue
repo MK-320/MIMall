@@ -1,6 +1,5 @@
 <template>
   <div>
-    这是views下的home
     <nav-header/>
     <router-view/>
     <nav-footer/>
