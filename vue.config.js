@@ -1,6 +1,7 @@
 const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
-    transpileDependencies: true
+    transpileDependencies: true,
+    lintOnSave:false
 })
 
 //导入path配置
@@ -22,7 +23,7 @@ module.exports = {
         port: 8080,
         proxy: {
             '/api': {
-                target: 'https://www.imooc.com',
+                target: 'http://mall-pre.springboot.cn',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''

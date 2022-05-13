@@ -1,0 +1,13 @@
+//flex 布局复用 水平方向两边对其  垂直方向上居中
+@mixin flex($horizontal:space-between, $vertical:center) {
+  display: flex;
+  justify-content: $horizontal;
+  align-items: $vertical;
+}
+@mixin bgImg($width:0, $height:0, $bgImgUrl:'',$bgSize:contain) {
+  display: inline-block;
+  width: $width;
+  height: $height;
+  background: url( $bgImgUrl) no-repeat center;
+  background-size: $bgSize;
+}

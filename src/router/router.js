@@ -37,7 +37,18 @@ export default new Router({
                      component:()=>import('@/views/productDetailed/index.vue')
                 }
             ]
-        },{
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('@/views/login/loginUser.vue')
+        },
+        {
+            path: '/register',
+            name: 'register',
+             component: () => import('@/views/register/registerUser.vue')
+        },
+        {
         //由于购物车页面和主页面不是共用头部导航的，所以需要将cart給剥离出来，不在home下面
             path:'/cart',
             name:'cart',

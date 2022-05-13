@@ -7,8 +7,12 @@ import VueAxios from "vue-axios";
 //插件放上面，组件放下面是
 import App from './App.vue'
 //一定要加 ./ 表示当前的目录，不加的话，他会默认认为是一个插件
-import env from "./env"
+// import env from "./env"
 //将axios挂载到Vue实例上去
+/*
+*axios不是Vue的插件， 不需要挂载，import了就能直接用。
+VueAxios才是Vue的插件，他依赖axios， 挂载这个插件是需要传递axios作为他的参数。
+Vue.use(VueAxios, axios)， 第一个参数是插件名， 第二个参数是这个插件的配置项， 对于VueAxios来说， axios是它唯一依赖的参数。  */
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false
@@ -18,15 +22,15 @@ Vue.config.productionTip = false
 axios.defaults.baseURL = "/api";
 axios.defaults.timeout = 5000;
 //根据不同的环境变量获取不同的接口地址np
-axios.defaults.baseURL=env.baseURl
+// axios.defaults.baseURL = env.baseURl
 //接口错误拦截 这里没有做请求拦截
 axios.interceptors.response.use(function (response) {
     //用axios的拦截器对所有的返回值（可以得到一个返回值对象）进行拦截，通过之后在进行处理
     let res = response.data//其实是有两个data这里就是解构了一层
-    if (res.status === 0) {
+    if (res.status == 0) {
         //这个项目中的后端规定返回0 代表成功
         return res.data;//这个data才是真正的接口返回的数据
-    } else if (res.status === 10) {
+    } else if (res.status == 10) {
         //这个项目中规定，状态码返回10 代表未登录
         //由于这里在main中，this的指向不是vue实例，而是window，所以使用路由跳转没有用，只有在app.vue或者组件中this的指向才是vue
         window.location.href = "/#/login";//另外这里用的是hash，所以要加 #
@@ -36,6 +40,13 @@ axios.interceptors.response.use(function (response) {
     }
 
 })
+
+//mock开关，这里这么写是因为 ，如果直接在main.js中import 导入，那么由于是预编译的，所以每次发请求都会被mockjs拦截，但是我们不想要这么做，只有需要时才开启mock
+const mock =false ;
+if(mock){
+    //require是运行时加载，import 是预编译时加载，所以，require 不运行到当前行是不会执行的
+    require("./mock/api");
+}
 
 new Vue({
     router,//封装完路由就在man.js中引入了router，并加载路由
