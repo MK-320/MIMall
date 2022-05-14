@@ -121,7 +121,7 @@ export default {
   name: 'nav-header',
   data(){
     return{
-      username:'jack',
+      username:'',
       phoneList:[]
     }
   },mounted() {
@@ -182,6 +182,7 @@ export default {
         background-color: $colorA;
         text-align: center;
         color: #FFFFFF;
+        margin-right: 0;
         .icon-cart {
           @include bgImg(16px,12px,'../../../public/imgs/icon-cart-checked.png');
           margin-right: 4px;

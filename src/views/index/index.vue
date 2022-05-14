@@ -43,7 +43,7 @@
 
         <swiper :options="swiperOption">
           <swiper-slide v-for="(item,index) in slideList" :key="index">
-            <a :href="'/#/product/'+item.id"><img :src="item.img" alt=""></a>
+            <a :href="'/#/product/'+item.id"><img v-lazy="item.img" alt=""></a>
 
           </swiper-slide>
           <!--             控制圆点 -->
@@ -55,14 +55,14 @@
       <div class="ads-box">
 
         <a v-bind:href="'/#/product/'+item.id" v-for="(item,index) in adsList" :key="index">
-          <img :src="item.img" alt="">
+          <img v-lazy="item.img" alt="">
         </a>
 
       </div>
       <div class="banner">
 
         <a href="'/#/product/30'">
-          <img src="/imgs/banner-1.png" alt="">
+          <img v-lazy="'/imgs/banner-1.png'" alt="">
         </a>
 
       </div>
@@ -85,7 +85,7 @@
                 <span :class="[j%2===0?'new-pro':'kill-pro']">{{ j % 2 === 0 ? '新品' : '秒杀' }}</span>
                 <div class="item-img">
                   <img
-                      :src="item.mainImage"
+                      v-lazy="item.mainImage"
                       alt="">
                 </div>
                 <div class="item-info">
@@ -252,7 +252,6 @@ export default {
       padding: 26px 0;
       box-sizing: border-box;
       background-color: #55585a7a;
-
       .menu-wrap {
         .menu-item {
           height: 50px;

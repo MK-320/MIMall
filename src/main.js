@@ -3,7 +3,8 @@ import router from "@/router/router";
 import axios from "axios";
 //vue-axios的作用是将axios挂载到Vue的原型上，以便在Vue组件中使用，不然需要每个页面都import axios·
 import VueAxios from "vue-axios";
-
+import VueLazyLoad from "vue-lazyload";
+import VueCookie from "vue-cookie";
 //插件放上面，组件放下面是
 import App from './App.vue'
 //一定要加 ./ 表示当前的目录，不加的话，他会默认认为是一个插件
@@ -14,7 +15,10 @@ import App from './App.vue'
 VueAxios才是Vue的插件，他依赖axios， 挂载这个插件是需要传递axios作为他的参数。
 Vue.use(VueAxios, axios)， 第一个参数是插件名， 第二个参数是这个插件的配置项， 对于VueAxios来说， axios是它唯一依赖的参数。  */
 Vue.use(VueAxios, axios);
-
+Vue.use(VueLazyLoad,{
+  loading:'/imgs/loading-svg/loading-bars.svg'
+})
+Vue.use(VueCookie);
 Vue.config.productionTip = false
 //axios最好封装一下，这里就没有封装，直接写在main.js中有点臃肿
 //baseUrl根据跨越的方式进行调整，如果前后端域名不一样时就需要写全 http://www.baidu.com 否则使用vue.config.js代理的方式的话，就只需要写接口地址
@@ -27,16 +31,23 @@ axios.defaults.timeout = 5000;
 axios.interceptors.response.use(function (response) {
     //用axios的拦截器对所有的返回值（可以得到一个返回值对象）进行拦截，通过之后在进行处理
     let res = response.data//其实是有两个data这里就是解构了一层
+    let path =location.hash//由于使用的是hash路由
     if (res.status == 0) {
         //这个项目中的后端规定返回0 代表成功
         return res.data;//这个data才是真正的接口返回的数据
     } else if (res.status == 10) {
+
+        if(path!='#/index'){
+            window.location.href = "/#/login";//另外这里用的是hash，所以要加 #
+        }
         //这个项目中规定，状态码返回10 代表未登录
         //由于这里在main中，this的指向不是vue实例，而是window，所以使用路由跳转没有用，只有在app.vue或者组件中this的指向才是vue
-        window.location.href = "/#/login";//另外这里用的是hash，所以要加 #
+
     } else {
         //否则就是错误信息
+
         alert(res.msg)
+        return Promise.reject(res)
     }
 
 })

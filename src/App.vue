@@ -15,9 +15,25 @@ export default {
   },
   components: {},
   mounted() {
-    this.axios.get('/user/login').then(res => {
-        this.res = res;
-    });
+    // this.axios.get('/user/login').then(res => {
+    //     this.res = res;
+    // });
+    this.getUser();
+    this.getCartCount();
+  },methods:{
+    getUser(){
+      this.axios.get('/user').then(res => {
+        //TODO:存储到VUEX中去
+        console.log(res);
+      });
+    },
+    getCartCount(){
+      this.axios.get('/cart/products/sum').then(res => {
+        //TODO:存储到VUEX中去
+        console.log(res);
+      });
+    }
+
   }
 }
 </script>
@@ -28,4 +44,5 @@ export default {
 @import './assets/scss/modal.scss';
 @import './assets/scss/mixin.scss';
 @import './assets/scss/button.scss';
+@import './assets/scss/base.scss';
 </style>
