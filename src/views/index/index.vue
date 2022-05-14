@@ -100,16 +100,20 @@
       </div>
     </div>
     <service-bar/>
-    <Modal
-        title="提示信息"
-        sure-type="查看详情"
-        btn-type="1"
-        modal-size-type="middle" :show-modal="showModal">
+    <modal
+        title="提示"
+        sureType="查看购物车"
+        cancel-type="取消"
+        btnType="3"
+        modalType="middle"
+        :showModal="showModal"
+        @submit="goToCart"
+        @cancel="showModal=false"
+    >
       <template v-slot:body>
         <p>商品添加成功！</p>
       </template>
-
-    </Modal>
+    </modal>
   </div>
 </template>
 
@@ -224,6 +228,9 @@ export default {
     },
     addCarts()  {
         this.showModal = true
+    },
+    goToCart(){
+      this.$router.push('/cart');
     }
   }
 

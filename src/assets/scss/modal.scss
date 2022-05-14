@@ -16,6 +16,7 @@
   &.slide-leave-active{
     top:-100%;
   }
+  //整个必须放在active的下面
   &.slide-enter{
     top:-100%;
   }

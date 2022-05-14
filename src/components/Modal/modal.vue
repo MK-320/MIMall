@@ -7,16 +7,18 @@
       <div class="modal-dialog">
 
         <div class="modal-header">
-          <span>标题</span>
-          <a href="javascript:;" class="icon-close"></a>
+          <span>{{title}}</span>
+          <a href="javascript:;" v-on:click="$emit('cancel')" class="icon-close"></a>
         </div>
         <div class="modal-body">
           <slot name="body"></slot>
         </div>
         <div class="modal-footer">
-          <div class="btn-group">
-            <a href="javascript:;" class="btn">确定</a>
-            <a href="javascript:;" class="btn btn-default">取消</a>
+          <a href="javascript:;" class="btn" v-if="btnType==1" @click="$emit('submit')">{{sureType}}</a>
+          <a href="javascript:;" class="btn" v-if="btnType==2" @click="$emit('cancel')">{{cancelType}}</a>
+          <div class="btn-group" v-if="btnType==3">
+            <a href="javascript:;" class="btn" @click="$emit('submit')">{{sureType}}</a>
+            <a href="javascript:;" class="btn btn-default" @click="$emit('cancel')">{{cancelType}}</a>
           </div>
 
         </div>
@@ -46,7 +48,7 @@ export default {
     btnType: String,
     sureType: {
       type: String,
-      default: "确定"
+      default: "查看购物车"
     },
     cancelType: {
       type: String,
