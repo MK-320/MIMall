@@ -38,7 +38,7 @@
   </div>
 </template>
 <script>
-//import { mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
   name: 'loginUser',
   data(){
@@ -62,18 +62,19 @@ export default {
       }).then((res)=>{
         console.log(res);
          this.$cookie.set('userId',res.id,{expires:'1M'});
-        //  this.$store.dispatch('saveUserName',res.username);
-        // this.saveUserName(res.username);
-        this.$router.push({
-          name:'index',
-          params:{
-            from:'login'
-          }
-        });
+         //TODO:将数据保存到vuex中去
+         // this.$store.dispatch('saveUserName',res.username);
+         this.saveUserName(res.username);
+        // this.$router.push({
+        //   name:'index',
+        //   params:{
+        //     from:'login'
+        //   }
+        // });
         //this.$router.push('/#/index');
       })
     },
-    //...mapActions(['saveUserName']),
+    ...mapActions(['saveUserName']),//将saveUserName方法映射到vuex中去 this.saveUserName 相当于 使用了 this.$store.dispatch('saveUserName')
     register(){
       //this.$message.success('功能暂未开发');
       //return;

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import router from "@/router/router";
+import store from './store' //index.js可以省略，因为默认读取index.js
 import axios from "axios";
 //vue-axios的作用是将axios挂载到Vue的原型上，以便在Vue组件中使用，不然需要每个页面都import axios·
 import VueAxios from "vue-axios";
@@ -60,6 +61,7 @@ if(mock){
 }
 
 new Vue({
+    store,
     router,//封装完路由就在man.js中引入了router，并加载路由
     render: h => h(App),
 }).$mount('#app')
