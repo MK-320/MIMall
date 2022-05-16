@@ -60,18 +60,19 @@ export default {
         username,
         password
       }).then((res)=>{
-        console.log(res);
-         this.$cookie.set('userId',res.id,{expires:'1M'});
+         this.$cookie.set('userId',res.id,{expires:'Session'});
          //TODO:将数据保存到vuex中去
          // this.$store.dispatch('saveUserName',res.username);
          this.saveUserName(res.username);
-        // this.$router.push({
-        //   name:'index',
-        //   params:{
-        //     from:'login'
-        //   }
-        // });
-        this.$router.push('/#/index');
+         //query传参是拼接参数到路径中 ，类似于get请求，并且必须使用path 与之匹配
+        //params传参是不会明文显示的，但是必须使用name 与之匹配
+        this.$message.success('登录成功');
+        this.$router.push({
+          name:'index',
+          params:{
+            from:'login'
+          }
+        });
       })
     },
     ...mapActions(['saveUserName']),//将saveUserName方法映射到vuex中去 this.saveUserName 相当于 使用了 this.$store.dispatch('saveUserName')

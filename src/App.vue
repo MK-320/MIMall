@@ -18,8 +18,12 @@ export default {
     // this.axios.get('/user/login').then(res => {
     //     this.res = res;
     // });
-    this.getUser();
-    this.getCartCount();
+    //如果处于登录状态就获取用户信息和购物车信息，否则就不请求接口
+    if(this.$cookie.get('userId')){
+      this.getUser();
+      this.getCartCount();
+    }
+
   },methods:{
     getUser(){
       //刷新页面之后获取用户信息

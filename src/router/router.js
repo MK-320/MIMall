@@ -13,6 +13,17 @@ import Router from 'vue-router';
 
 Vue.use(Router);//Vue加载插件的固定写法
 
+
+const originalPush = Router.prototype.push
+
+Router.prototype.push = function push (location) {
+
+    return originalPush.call(this, location).catch(err => err)
+
+}
+
+
+
 //导出一个Router的对象（里面是一些路由的配置）
 export default new Router({
     //routes 配置的是路由的一系列的配置

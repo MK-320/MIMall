@@ -12,6 +12,7 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{username}}</a>
           <a href="javascript:;" v-if="!username" @click="login()">登录</a>
+          <a href="javascript:;" v-if="username" @click="loginOut()">退出登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart()"><span class="icon-cart"></span> 购物车({{cartCount}})</a>
         </div>
@@ -126,6 +127,11 @@ export default {
     }
   },mounted() {
       this.getPhoneList();
+      let params=this.$route.params
+      if(params&&params.from==='login'){
+        this.getCartCount();
+      }
+
   },
   computed:{
     // eslint-disable-next-line vue/no-dupe-keys
@@ -164,6 +170,20 @@ export default {
     },
     login(){
       this.$router.push('/login')
+    },
+    loginOut(){
+     this.axios.post('/user/logout').then(()=>{
+        this.$message.success('退出登录成功');
+        this.$cookie.set('userId','',{expires:-1}); //清除前端的cookie
+       this.$store.dispatch('saveUserName',''); //清除vuex中的username
+       this.$store.dispatch('saveCartCount',0); //清除vuex中的cartCount
+     })
+    },
+    getCartCount(){
+      this.axios.get('/carts/products/sum').then((res=0) => {
+        //TODO:存储到VUEX中去
+        this.$store.dispatch('saveCartCount',res);
+      });
     }
   }
 }
