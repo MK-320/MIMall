@@ -33,6 +33,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "mockjs": "^1.1.0",
+    "qrcode": "^1.5.0",
     "vue-awesome-swiper": "4.0.4",
     "vue-template-compiler": "^2.6.14"
   },
@@ -48,7 +49,14 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/no-parsing-error": [
+        2,
+        {
+          "x-invalid-end-tag": false
+        }
+      ]
+    }
   },
   "browserslist": [
     "> 1%",
