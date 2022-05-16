@@ -23,13 +23,13 @@ export default {
   },methods:{
     getUser(){
       //刷新页面之后获取用户信息
-      this.axios.get('/user').then(res => {
+      this.axios.get('/user').then((res={}) => {
         //TODO:存储到VUEX中去
         this.$store.dispatch('saveUserName',res.username);
       });
     },
     getCartCount(){
-      this.axios.get('/carts/products/sum').then(res => {
+      this.axios.get('/carts/products/sum').then((res=0) => {
         //TODO:存储到VUEX中去
         this.$store.dispatch('saveCartCount',res);
       });

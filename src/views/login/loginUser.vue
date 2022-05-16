@@ -71,7 +71,7 @@ export default {
         //     from:'login'
         //   }
         // });
-        //this.$router.push('/#/index');
+        this.$router.push('/#/index');
       })
     },
     ...mapActions(['saveUserName']),//将saveUserName方法映射到vuex中去 this.saveUserName 相当于 使用了 this.$store.dispatch('saveUserName')

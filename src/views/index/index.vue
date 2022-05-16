@@ -222,12 +222,16 @@ export default {
       }).then(res => {
         //slice方法和splice()方法的区别就是splice 方法会改变原数组，而slice方法不会
         this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]//TODO:这种写法就是先将原数组分割成数组，然后放入一个数组，也就是二维数组
-
       })
-
     },
-    addCarts()  {
-        this.showModal = true
+    addCarts(id)  {
+      this.axios.post('/carts',{
+        productId:id,
+        selected: true
+      }).then((res)=>{
+        this.showModal = true;
+        this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
+      });
     },
     goToCart(){
       this.$router.push('/cart');
