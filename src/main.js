@@ -45,7 +45,6 @@ axios.interceptors.response.use(function (response) {
         if(path!='#/index'){
             // eslint-disable-next-line no-debugger
             window.location.href = "/#/login";//另外这里用的是hash，所以要加 #
-
         }
         //这个项目中规定，状态码返回10 代表未登录
         //由于这里在main中，this的指向不是vue实例，而是window，所以使用路由跳转没有用，只有在app.vue或者组件中this的指向才是vue
@@ -56,7 +55,11 @@ axios.interceptors.response.use(function (response) {
 
         return Promise.reject(res)
     }
-
+//第一个function是拦截业务正常的请求，第二个是http 状态码错误拦截，比如订单已经支付，但是再次点击支付，此时业务的处理已经通过，但是服务器会返回一个错误的状态码 比如 500 ，将他拦截下来，将错误信息输出，该订单已支付，请不要重复发起支付
+}, (error)=>{
+    let res = error.response
+    Message.error(res.data.message)
+    return Promise.reject(error)
 })
 
 //mock开关，这里这么写是因为 ，如果直接在main.js中import 导入，那么由于是预编译的，所以每次发请求都会被mockjs拦截，但是我们不想要这么做，只有需要时才开启mock

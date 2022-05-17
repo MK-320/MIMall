@@ -73,7 +73,7 @@
 </template>
 <script>
  import QRCode from 'qrcode'
-//import OrderHeader from '@/components/OrderHeader/index'
+import OrderHeader from '@/components/OrderHeader/index'
 import ScanPayCode from '@/components/ScanPayCode/ScanPayCode'
 import Modal from '@/components/Modal/modal'
 export default{
@@ -93,7 +93,7 @@ export default{
     }
   },
   components:{
-    //OrderHeader,
+    OrderHeader,
     ScanPayCode,
     Modal
   },
@@ -139,8 +139,10 @@ export default{
     },
     // 轮询当前订单支付状态
     loopOrderState(){
+      //setinterval会不停的执行，settimeout只执行一次
       this.T = setInterval(()=>{
         this.axios.get(`/orders/${this.orderId}`).then((res)=>{
+          //订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭
           if(res.status == 20){
             clearInterval(this.T);
             this.goOrderList();

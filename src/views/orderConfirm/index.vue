@@ -160,7 +160,7 @@
   </div>
 </template>
 <script>
-// import OrderHeader from '@/components/OrderHeader/index'
+import OrderHeader from '@/components/OrderHeader/index'
 import Modal from '@/components/Modal/modal'
 export default{
   name:'order-confirm',
@@ -178,7 +178,7 @@ export default{
     }
   },
   components:{
-    // OrderHeader,
+    OrderHeader,
     Modal
   },
   mounted(){
