@@ -5,7 +5,7 @@
       <p>小米商城</p>
     </div>
     <div class="footer-link">
-      <a href="" target="_blank">drgeek的主页</a><span>|</span>
+      <a href="javascript:;" target="_blank">drgeek的主页</a><span>|</span>
       <a href="https://home.miui.com/" target="_blank">MIUI</a><span>|</span>
       <a href="https://home.mi.com/index.html" target="_blank">米家</a><span>|</span>
       <a href="http://www.miliao.com/" target="_blank">米聊</a><span>|</span>

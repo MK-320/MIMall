@@ -27,13 +27,13 @@
     </div>
     <div class="footer">
       <div class="footer-link">
-        <a href="https://www.imooc.com/u/1343480" target="_blank">慕颖泉主页</a><span>|</span>
+        <a href="/#/index" target="_blank">drgeek主页</a><span>|</span>
         <a href="hhttps://home.mi.com/index.html" target="_blank">米家</a><span>|</span>
         <a href="https://home.miui.com/" target="_blank">MIUI</a><span>|</span>
         <a href="http://www.miliao.com/" target="_blank">米聊</a><span>|</span>
         <a href="https://www.mi.com/service/exchange" target="_blank">服务政策</a>
       </div>
-      <p class="copyright">Copyright ©2020 慕颖泉 All Rights Reserved.</p>
+      <p class="copyright">Copyright ©2022 慕颖泉 All Rights Reserved.</p>
     </div>
   </div>
 </template>
@@ -86,6 +86,7 @@ export default {
       // }).then(()=>{
       //   this.$message.success('注册成功');
       // })
+      this.$router.push('/register');
     }
   }
 }

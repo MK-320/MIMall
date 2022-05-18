@@ -1,10 +1,10 @@
-const {defineConfig} = require('@vue/cli-service')
-module.exports = defineConfig({
-    transpileDependencies: true,
-    lintOnSave:false
-})
-
-//导入path配置
+// const {defineConfig} = require('@vue/cli-service')
+// module.exports = defineConfig({
+//     transpileDependencies: true,
+//     lintOnSave:false
+// })
+//
+//导入@ path配置
 'use strict'
 const path = require('path')
 
@@ -35,7 +35,8 @@ module.exports = {
     //配置常见的vue配置
     publicPath: '/',
     outputDir: 'dist',
-    assetsDir: 'static',
+    lintOnSave: false,
+    indexPath: 'index.html',
     configureWebpack: {
         // provide the app's title in webpack's name field, so that
         // it can be accessed in index.html to inject the correct title.
@@ -48,5 +49,9 @@ module.exports = {
         }
 
 
+    },
+
+    chainWebpack:(config)=>{
+        config.plugins.delete('prefetch');
     }
 }
