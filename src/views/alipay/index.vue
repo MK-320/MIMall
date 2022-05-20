@@ -1,15 +1,22 @@
 <template>
   <div class="ali-pay">
+    <order-header>
+      <template #tip>
+        <span>正在跳转中请稍后~~</span>
+      </template>
+    </order-header>>
     <loading v-if="loading"></loading>
     <div class="form" v-html="content"></div>
   </div>
 </template>
 <script>
 import Loading from '@/components/Loading/Loading'
+import OrderHeader from "@/components/OrderHeader";
 export default{
   // eslint-disable-next-line vue/multi-word-component-names
   name:'alipay',
   components:{
+    OrderHeader,
     Loading
   },
   data(){

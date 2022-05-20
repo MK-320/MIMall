@@ -60,8 +60,8 @@
         title="支付确认"
         btnType="3"
         :showModal="showPayModal"
-        sureText="查看订单"
-        cancelText="未支付"
+        sureType="查看订单"
+        cancelType="未支付"
         @cancel="showPayModal=false"
         @submit="goOrderList"
     >

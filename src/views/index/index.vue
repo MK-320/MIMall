@@ -86,7 +86,9 @@
                 <div class="item-img">
                   <img
                       v-lazy="item.mainImage"
-                      alt="">
+                      alt=""
+                  @click="$router.push('/product/'+item.id)">
+                  >
                 </div>
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
@@ -235,6 +237,9 @@ export default {
     },
     goToCart(){
       this.$router.push('/cart');
+    },
+    test(item){
+      console.log(item);
     }
   }
 

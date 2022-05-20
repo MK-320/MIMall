@@ -77,15 +77,6 @@ export default {
     },
     ...mapActions(['saveUserName']),//将saveUserName方法映射到vuex中去 this.saveUserName 相当于 使用了 this.$store.dispatch('saveUserName')
     register(){
-      //this.$message.success('功能暂未开发');
-      //return;
-      // this.axios.post('/user/register',{
-      //   username:'adasddsgfdsagdsfad',
-      //   password:'zxcdsfdsafdsagadsavv',
-      //   email:'zxcdsadgdfsgfdsav@163.com'
-      // }).then(()=>{
-      //   this.$message.success('注册成功');
-      // })
       this.$router.push('/register');
     }
   }

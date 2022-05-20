@@ -85,7 +85,7 @@ export default{
         console.log("购物车里的数据",res);
       })
     },
-    // // 更新购物车数量和购物车单选状态
+   // 更新购物车数量和购物车单选状态
     updateCart(item,type){
       let quantity = item.quantity,
           selected = item.productSelected;
@@ -104,7 +104,7 @@ export default{
         }
         ++quantity;
       }else{
-        selected = !item.productSelected;
+        selected = !item.productSelected;  //将状态取反
       }
       this.axios.put(`/carts/${item.productId}`,{
         quantity,

@@ -107,6 +107,7 @@
     <modal
         title="新增确认"
         btnType="1"
+        sure-type="确认新增地址"
         :showModal="showEditModal"
         @cancel="showEditModal=false"
         @submit="submitAddress"
@@ -146,9 +147,11 @@
         </div>
       </template>
     </modal>
+
     <modal
         title="删除确认"
         btnType="1"
+        sure-type="确认删除"
         :showModal="showDelModal"
         @cancel="showDelModal=false"
         @submit="submitAddress"
