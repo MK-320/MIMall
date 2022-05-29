@@ -2,7 +2,7 @@
  * @Author: Drgeek
  * @Date: 2022-05-09 15:13:06
  * @LastEditors: Drgeek
- * @LastEditTime: 2022-05-09 15:13:20
+ * @LastEditTime: 2022-05-30 07:18:24
  * @FilePath: \MIMall\src\router\router.js
  * @Description:
  *
@@ -31,7 +31,7 @@ export default new Router({
         {
             path: '/',
             name:'home',
-            redirect:'/index',//页面默认加载的子路由，配合router-view 使用
+             redirect:'/index',//页面默认加载的子路由，配合router-view 使用
             component:()=>import('@/views/home/index.vue'),
             children:[
                 {

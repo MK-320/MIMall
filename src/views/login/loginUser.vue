@@ -54,8 +54,7 @@ export default {
       let { username,password } = this;
       if(!username || !password){
         this.$message.error('请输入正确的用户名和密码');
-        return;
-      }
+        return;}
       this.axios.post('/user/login',{
         username,
         password

@@ -18,6 +18,7 @@ import store from './store' //index.js可以省略，因为默认读取index.js
 VueAxios才是Vue的插件，他依赖axios， 挂载这个插件是需要传递axios作为他的参数。
 Vue.use(VueAxios, axios)， 第一个参数是插件名， 第二个参数是这个插件的配置项， 对于VueAxios来说， axios是它唯一依赖的参数。  */
 Vue.use(VueAxios, axios);
+
 Vue.use(VueLazyLoad,{
   loading:'/imgs/loading-svg/loading-bars.svg'
 })
@@ -55,7 +56,6 @@ axios.interceptors.response.use(function (response) {
     } else {
         //否则就是错误信息
         Message.error(res.msg);
-
         return Promise.reject(res)
     }
 //第一个function是拦截业务正常的请求，第二个是http 状态码错误拦截，比如订单已经支付，但是再次点击支付，此时业务的处理已经通过，但是服务器会返回一个错误的状态码 比如 500 ，将他拦截下来，将错误信息输出，该订单已支付，请不要重复发起支付

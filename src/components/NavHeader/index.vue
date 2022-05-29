@@ -125,12 +125,14 @@ export default {
     return{
       phoneList:[]
     }
-  },mounted() {
+  },
+  mounted() {
       this.getPhoneList();
       let params=this.$route.params
       if(params&&params.from==='login'){
         this.getCartCount();
       }
+
 
   },
   computed:{
@@ -162,8 +164,12 @@ export default {
          if(res.list.length>=6){
           this.phoneList=res.list.slice(0,6)
         }
-        console.log(res.list)
       })
+    },
+    getCartCount(){
+      this.axios.get('/carts/products/sum').then((res=0) => {
+        this.$store.dispatch('saveCartCount',res);
+      });
     },
     goToCart(){
       this.$router.push('/cart')
@@ -179,12 +185,7 @@ export default {
        this.$store.dispatch('saveCartCount',0); //清除vuex中的cartCount
      })
     },
-    getCartCount(){
-      this.axios.get('/carts/products/sum').then((res=0) => {
-        //TODO:存储到VUEX中去
-        this.$store.dispatch('saveCartCount',res);
-      });
-    }
+
   }
 }
 </script>

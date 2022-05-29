@@ -93,7 +93,10 @@
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
                   <p>{{ item.subtitle }}</p>
-                  <p class="price" @click="addCarts(item.id)">{{ item.price }}元起</p>
+                  <p class="price"  @click="$router.push('/product/'+item.id)">{{ item.price }}元起
+                  <span class="cart-icon"  @click.stop="addCarts(item.id)"></span>
+                  </p>
+
                 </div>
               </div>
             </div>
@@ -112,10 +115,11 @@
         @submit="goToCart"
         @cancel="showModal=false"
     >
-      <template v-slot:body>
-        <p>商品添加成功！</p>
+      <template #body>
+        <p>商品添加成功！</p>W
       </template>
     </modal>
+
   </div>
 </template>
 
@@ -227,13 +231,19 @@ export default {
       })
     },
     addCarts(id)  {
-      this.axios.post('/carts',{
-        productId:id,
-        selected: true
-      }).then((res)=>{
-        this.showModal = true;
-        this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
-      });
+     //TODO:未登录是不能加购物车的
+      if(this.$store.state.username===""){
+        this.$message.error('请先登录！！！');
+      }else{
+        this.axios.post('/carts',{
+          productId:id,
+          selected: true
+        }).then((res)=>{
+          this.showModal = true;
+          this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
+        });
+      }
+
     },
     goToCart(){
       this.$router.push('/cart');
@@ -435,7 +445,7 @@ export default {
               p {
                 color: $colorD;
                 line-height: 13px;
-                margin: 6px auto 13px;
+                margin: 6px auto 6px;
               }
 
               .price {
@@ -444,14 +454,22 @@ export default {
                 font-weight: bold;
                 cursor: pointer;
 
-                &:after {
+                //&:after {
+                //  @include bgImg(22px, 22px, './../../../public/imgs/icon-cart-hover.png');
+                //  content: ' ';
+                //  margin-left: 5px;
+                //  vertical-align: middle;
+                //  margin-top: -5px;
+                //}
+                .cart-icon:after {
                   @include bgImg(22px, 22px, './../../../public/imgs/icon-cart-hover.png');
                   content: ' ';
                   margin-left: 5px;
                   vertical-align: middle;
-                  margin-top: -5px;
+                  margin-top: -6px;
                 }
               }
+
             }
           }
         }

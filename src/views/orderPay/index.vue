@@ -119,6 +119,7 @@ export default{
           amount:0.01,//单位元
           payType:2 //1支付宝，2微信
         }).then((res)=>{
+
           QRCode.toDataURL(res.content)
               .then(url => {
                 this.showPay = true;
