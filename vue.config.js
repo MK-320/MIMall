@@ -20,7 +20,6 @@ module.exports = {
     //vue.config.js解决的跨域的原理就是通过代理服务器来实现的，拦截请求通过nodejs服务器转发给别的服务器就不会出现跨域了
     devServer: {
         host: 'localhost',
-        port: 8080,
         proxy: {
             '/api': {
                 target: 'http://mall-pre.springboot.cn',

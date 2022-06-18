@@ -116,7 +116,7 @@
         @cancel="showModal=false"
     >
       <template #body>
-        <p>商品添加成功！</p>W
+        <p>商品添加成功！</p>
       </template>
     </modal>
 

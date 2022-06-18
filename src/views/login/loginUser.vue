@@ -20,7 +20,7 @@
           </div>
           <div class="tips">
             <div class="sms" @click="register">手机短信登录/注册</div>
-             <div class="reg">立即注册<span>|</span>忘记密码？</div>
+             <div class="reg"  @click="register">立即注册<span>|</span>忘记密码？</div>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
         <a href="http://www.miliao.com/" target="_blank">米聊</a><span>|</span>
         <a href="https://www.mi.com/service/exchange" target="_blank">服务政策</a>
       </div>
-      <p class="copyright">Copyright ©2022 慕颖泉 All Rights Reserved.</p>
+      <p class="copyright">Copyright ©2022 Drgeek All Rights Reserved.</p>
     </div>
   </div>
 </template>
