@@ -18,19 +18,37 @@ module.exports = {
     //这个文件是webpack的配置文件
     //由于底层的nodejs遵守commonjs规范，所以需要使用module.exports 进行导入
     //vue.config.js解决的跨域的原理就是通过代理服务器来实现的，拦截请求通过nodejs服务器转发给别的服务器就不会出现跨域了
+    // devServer: {
+    //     host: 'localhost',
+    //     port: 3000,
+    //     proxy: {
+    //         '/api': {
+    //             target: 'http://mall-pre.springboot.cn',
+    //             changeOrigin: true,
+    //             pathRewrite: {
+    //                 '^/api': ''
+    //             }
+    //         }
+    //     }
+    // },
     devServer: {
         host: 'localhost',
+        port: 8080,
+        open: true,
         proxy: {
             '/api': {
-                target: 'http://mall-pre.springboot.cn',
+                target: 'http://localhost:3000',
+                changeOrigin: true
+            },
+            '/mall': {
+                target: 'http://localhost:3000',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/mall': '/api'
                 }
             }
         }
     },
-
     //配置常见的vue配置
     publicPath: '/',
     outputDir: 'dist',

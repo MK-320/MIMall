@@ -173,5 +173,4 @@ export default {
       margin-top:13px;
     }
   }
-}
-</style>
+}</style>

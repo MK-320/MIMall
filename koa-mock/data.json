@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": 10001,
+      "username": "admin",
+      "password": "123456",
+      "email": "admin@mimall.com"
+    },
+    {
+      "id": 10002,
+      "username": "123456",
+      "password": "112233",
+      "email": "123456@163.com",
+      "createTime": "2026-01-15T13:47:21.105Z"
+    },
+    {
+      "id": 10003,
+      "username": "李四1233",
+      "password": "112233",
+      "email": "1123456@163.com",
+      "createTime": "2026-01-15T14:00:33.604Z"
+    },
+    {
+      "id": 10004,
+      "username": "李四123",
+      "password": "112233",
+      "email": "3456@163.com",
+      "createTime": "2026-01-15T14:10:04.801Z"
+    },
+    {
+      "id": 10005,
+      "username": "李四1122",
+      "password": "11111",
+      "email": "123@163.com",
+      "createTime": "2026-01-15T14:15:31.605Z"
+    },
+    {
+      "id": 10006,
+      "username": "李四1111",
+      "password": "111111",
+      "email": "4444@163.com",
+      "createTime": "2026-01-15T14:17:52.274Z"
+    },
+    {
+      "id": 10007,
+      "username": "112222",
+      "password": "1111111",
+      "email": "12346@163.com",
+      "createTime": "2026-01-15T14:24:34.646Z"
+    },
+    {
+      "id": 10008,
+      "username": "111111",
+      "password": "11111111",
+      "email": "456@163.com",
+      "createTime": "2026-01-15T14:41:44.044Z"
+    }
+  ]
+}

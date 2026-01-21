@@ -2,7 +2,7 @@ import Vue from 'vue'
 import router from "@/router/router";
 import axios from "axios";
 import { Message } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css' //引入默认的elementui样式，有时候可以不用引入
+import 'element-ui/lib/theme-chalk/index.css' //引入默认的Element-UI样式，有时候可以不用引入
 //vue-axios的作用是将axios挂载到Vue的原型上，以便在Vue组件中使用，不然需要每个页面都import axios·
 import VueAxios from "vue-axios";
 import VueLazyLoad from "vue-lazyload";
@@ -40,9 +40,6 @@ axios.interceptors.response.use(function (response) {
     let path =location.hash//由于使用的是hash路由
     if (res.status == 0) {
         //这个项目中的后端规定返回0 代表成功
-        if(res.msg=='注册成功'){
-            return res.msg
-        }
         return res.data//这个data才是真正的接口返回的数据
     } else if (res.status == 10) {
 

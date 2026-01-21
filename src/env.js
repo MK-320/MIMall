@@ -4,7 +4,8 @@ let baseURl;
 switch (process.env.NODE_ENV) {
     //这里的地址是线上真实的接口环境地址
     case 'development':
-        baseURl = 'http://dev-mall-pre.springboot.cn/api';
+        // baseURl = 'http://dev-mall-pre.springboot.cn/api';
+         baseURl = 'http://localhost:3000'; // Koa 服务器地址
         break;
     case 'test':
         baseURl = 'http://test-mall-pre.springboot.cn/api';
