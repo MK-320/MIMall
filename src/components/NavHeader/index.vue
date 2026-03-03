@@ -71,7 +71,7 @@
                     <div class="pro-img">
                       <img src="/imgs/nav-img/nav-3-3.png" alt="">
                     </div>
-                    <div class="pro-name">小米电视6 65”  OLED</div>
+                    <div class="pro-name">小米电视6 65"  OLED</div>
                     <div class="pro-price">4899元</div>
                   </a>
                 </li>
@@ -80,7 +80,7 @@
                     <div class="pro-img">
                       <img src="/imgs/nav-img/nav-3-4.jpg" alt="">
                     </div>
-                    <div class="pro-name">小米电视 大师  77”  OLED</div>
+                    <div class="pro-name">小米电视 大师  77"  OLED</div>
                     <div class="pro-price">5699元</div>
                   </a>
                 </li>
@@ -136,17 +136,9 @@ export default {
 
   },
   computed:{
-    // eslint-disable-next-line vue/no-dupe-keys
-    // username(){
-    //   return this.$store.state.username;
-    // },
-    // cartCount(){
-    //   return this.$store.state.cartCount;
-    // }
     ...mapState(['username','cartCount'])
   },
 
-  //局部过滤器，
   filters:{
     currency(val){
       if(!val)return '0.00';
@@ -155,11 +147,8 @@ export default {
   },
   methods:{
     getPhoneList(){
-      this.axios.get('/products',{
-        params:{
+      this.$api.product.getProductList({
           categoryId:'100012',
-          // pageSize:6
-        }
       }).then(res=>{
          if(res.list.length>=6){
           this.phoneList=res.list.slice(0,6)
@@ -167,7 +156,7 @@ export default {
       })
     },
     getCartCount(){
-      this.axios.get('/carts/products/sum').then((res=0) => {
+      this.$api.cart.getCartSum().then((res=0) => {
         this.$store.dispatch('saveCartCount',res);
       });
     },
@@ -178,11 +167,11 @@ export default {
       this.$router.push('/login')
     },
     loginOut(){
-     this.axios.post('/user/logout').then(()=>{
+     this.$api.user.logout().then(()=>{
         this.$message.success('退出登录成功');
-        this.$cookie.set('userId','',{expires:-1}); //清除前端的cookie
-       this.$store.dispatch('saveUserName',''); //清除vuex中的username
-       this.$store.dispatch('saveCartCount',0); //清除vuex中的cartCount
+        this.$cookie.set('userId','',{expires:-1});
+       this.$store.dispatch('saveUserName','');
+       this.$store.dispatch('saveCartCount',0);
      })
     },
 
@@ -203,7 +192,6 @@ export default {
     .container {
       @include flex();
       a {
-        //为什么要单独设置a的样式？  因为 a有内置样式 它的优先级高于上面div的优先级
         display: inline-block;
         color: #B0B0B0;
         margin-right: 17px;
@@ -333,7 +321,6 @@ export default {
                 width:1px;
               }
               &:last-child:before{
-                //最后一根线清除
                 display:none;
               }
             }
@@ -366,4 +353,3 @@ export default {
   }
 }
 </style>
-

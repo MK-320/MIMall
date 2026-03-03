@@ -56,16 +56,6 @@
               :current-page="pageNum"
               :total="total">
           </el-pagination>
-<!--          <div class="load-more" v-if="showNextPage">-->
-<!--            <el-button type="primary" :loading="loading" @click="loadMore">加载更多</el-button>-->
-<!--          </div>-->
-<!--          <div class="scroll-more"-->
-<!--               v-infinite-scroll="scrollMore"-->
-<!--               infinite-scroll-disabled="busy"-->
-<!--               infinite-scroll-distance="410"-->
-<!--          >-->
-<!--            <img src="/imgs/loading-svg/loading-spinning-bubbles.svg" alt="" v-show="loading">-->
-<!--          </div>-->
           <no-data v-if="!loading && list.length===0"></no-data>
         </div>
       </div>
@@ -87,37 +77,32 @@ export default {
     orderHeader,
     loading,
     noData,
-    [Pagination.name]: Pagination,//动态加载 element-ui 的组件  Pagination.name 就相当于 el-pagination
+    [Pagination.name]: Pagination,
     [Button.name]: Button
   },
   data() {
     return {
       list: [],
       loading: false,
-      pageSize: 5,//每一页的显示的数据条数
-      pageNum: 1, //当前是第几页
+      pageSize: 5,
+      pageNum: 1,
       total: 0,
-      busy: false,//true是 默认禁用状态，false是启用状态
-      showNextPage: true,//加载更多按钮是否显示
+      busy: false,
+      showNextPage: true,
     }
   },
-  directives: {infiniteScroll}, //插件的指令集
+  directives: {infiniteScroll},
   mounted() {
     this.getOrderList();
   },
   methods: {
-    //专门给加载更多按钮使用
     getOrderList() {
-      //开始加载
       this.loading = true;
       this.busy= true;
-      this.axios.get('/orders', {
-        params: {
-          pageSize: this.pageSize,//当前的
-          pageNum: this.pageNum//当前的页数
-        }
+      this.$api.order.getOrderList({
+          pageSize: this.pageSize,
+          pageNum: this.pageNum
       }).then((res) => {
-        //数组回来之后关闭加载
         this.loading = false;
         this.list = this.list.concat(res.list)
         this.total = res.total;
@@ -127,34 +112,27 @@ export default {
         this.loading = false;
       })
     },
-  //专门给分页器使用
     getOrderListForPagination() {
-      //开始加载
       this.loading = true;
-      this.axios.get('/orders', {
-        params: {
-          pageSize: 5,//当前页的数据总数
-          pageNum: this.pageNum//当前的页数
-        }
+      this.$api.order.getOrderList({
+          pageSize: 5,
+          pageNum: this.pageNum
       }).then((res) => {
-        //数组回来之后关闭加载
         this.loading = false;
         this.list = res.list
         this.total = res.total;
       }).catch(() => {
         this.loading = false;
       })
-    }
-  ,goPay(orderNo) {
+    },
+    goPay(orderNo) {
       this.$router.push({name: 'orderPay', query: {orderNo}});
     },
     handleChange(pageNum) {
-      //传入当前的页数
       this.pageNum = pageNum;
       this.getOrderListForPagination();
     },
     loadMore() {
-      //使用concat 方法拼接数组
       this.pageNum++;
       this.getOrderListForPagination();
     },
@@ -165,17 +143,12 @@ export default {
         this.getList();
       },500);
     },
-    //专门给滚动使用
     getList(){
-      //开始加载
       this.loading = true;
-      this.axios.get('/orders', {
-        params: {
-          pageSize: 10,//当前的
-          pageNum: this.pageNum//当前的页数
-        }
+      this.$api.order.getOrderList({
+          pageSize: 10,
+          pageNum: this.pageNum
       }).then((res) => {
-        //数组回来之后关闭加载
         this.list = this.list.concat(res.list)
         this.loading = false;
         if(res.hasNextPage){

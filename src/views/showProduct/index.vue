@@ -32,7 +32,6 @@
           <swiper-slide><img src="/imgs/product/gallery-4.png" alt=""></swiper-slide>
           <swiper-slide><img src="/imgs/product/gallery-5.jpg" alt=""></swiper-slide>
           <swiper-slide><img src="/imgs/product/gallery-6.jpg" alt=""></swiper-slide>
-          <!-- Optional controls -->
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
         <p class="desc">小米8 AI变焦双摄拍摄</p>
@@ -56,7 +55,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import ProductParam from '@/components/ProductParam/index'
-import 'swiper/css/swiper.css' // 添加这行
+import 'swiper/css/swiper.css'
 export default {
   name: 'showProduct',
   components: {
@@ -66,8 +65,8 @@ export default {
   },
   data() {
     return {
-      showSlide: '',//控制动画效果
-      product: {},//商品信息
+      showSlide: '',
+      product: {},
       swiperOption: {
         autoplay: true,
         slidesPerView: 3,
@@ -87,13 +86,11 @@ export default {
     getProductInfo() {
       let id = this.$route.params.id;
       console.log("路由传过来的商品id是：", id);
-      this.axios.get(`/products/${id}`).then((res) => {
+      this.$api.product.getProductDetail(id).then((res) => {
         this.product = res;
         console.log("商品信息：", this.product);
-        // 动态设置背景图片到伪元素
         this.$nextTick(() => {
           if (this.$refs.bgImg && this.product.mainImage) {
-            // 添加一个CSS变量来设置背景图片
             this.$refs.bgImg.style.setProperty('--bg-image', `url(${this.product.mainImage})`);
           }
         });
@@ -121,7 +118,6 @@ export default {
 .product {
   .content {
     .item-bg {
-      //background:url('./../../../public/imgs/product/product-bg-1.png') no-repeat center;
       height: 718px;
       text-align: center;
       position: relative;
@@ -131,33 +127,31 @@ export default {
       >h3,
       >p {
         position: relative;
-        z-index: 2; // 确保文字在背景图之上
-        color: #333333; // 恢复原始文字颜色
+        z-index: 2;
+        color: #333333;
       }
 
       >.price {
         position: relative;
-        z-index: 2; // 确保价格在背景图之上
-        margin-bottom: 10px; // 减小价格和背景图之间的间距
+        z-index: 2;
+        margin-bottom: 10px;
       }
 
-      // 使用元素本身作为背景容器，但限制背景图只在下方显示
       &::before {
         content: '';
         position: absolute;
-        bottom: 0; // 将背景图固定在底部
+        bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 90%; // 增加背景图的宽度
-        height: 400px; // 增加背景图的高度，让图片稍大一些
-        background-image: var(--bg-image); // 使用CSS变量
-        background-size: contain; // 保持原始比例
+        width: 90%;
+        height: 400px;
+        background-image: var(--bg-image);
+        background-size: contain;
         background-repeat: no-repeat;
-        background-position: center center; // 图片居中显示
-        z-index: 0; // 确保背景图在文字之下
+        background-position: center center;
+        z-index: 0;
       }
 
-      // 确保所有内容在背景图之上
       >* {
         position: relative;
         z-index: 2;
@@ -212,7 +206,7 @@ export default {
 
     .item-swiper {
       margin: 36px auto 52px;
-      height: 400px; // 关键：添加固定高度！
+      height: 400px;
 
       .desc {
         font-size: 18px;
@@ -315,8 +309,8 @@ export default {
           video {
             width: 100%;
             height: 100%;
-            object-fit: cover; //覆盖掉video原始的样式
-            outline: none; //覆盖掉video原始的样式
+            object-fit: cover;
+            outline: none;
           }
         }
       }

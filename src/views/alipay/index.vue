@@ -13,8 +13,7 @@
 import Loading from '@/components/Loading/Loading'
 import OrderHeader from "@/components/OrderHeader";
 export default{
-  // eslint-disable-next-line vue/multi-word-component-names
-  name:'alipay',
+  name:'aliPay',
   components:{
     OrderHeader,
     Loading
@@ -31,11 +30,11 @@ export default{
   },
   methods:{
     paySubmit(){
-      this.axios.post('/pay',{
+      this.$api.pay.pay({
         orderId:this.orderId,
         orderName:'小米商城订单',
-        amount:0.01,//单位元
-        payType:1 //1支付宝，2微信
+        amount:0.01,
+        payType:1
       }).then((res)=>{
         this.content = res.content;
         setTimeout(()=>{

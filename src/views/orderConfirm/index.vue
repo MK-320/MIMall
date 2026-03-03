@@ -169,15 +169,15 @@ export default{
   name:'order-confirm',
   data(){
     return {
-      list:[],//收货地址列表
-      cartList:[],//购物车中需要结算的商品列表
-      cartTotalPrice:0,//商品总金额
-      count:0,//商品结算数量
-      checkedItem:{},//选中的商品对象
-      userAction:'',//用户行为 0：新增 1：编辑 2：删除
-      showDelModal:false,//是否显示删除弹框
-      showEditModal:false,//是否显示新增或者编辑弹框
-      checkIndex:0//当前收货地址选中索引
+      list:[],
+      cartList:[],
+      cartTotalPrice:0,
+      count:0,
+      checkedItem:{},
+      userAction:'',
+      showDelModal:false,
+      showEditModal:false,
+      checkIndex:0
     }
   },
   components:{
@@ -190,17 +190,15 @@ export default{
   },
   methods:{
     getAddressList(){
-      this.axios.get('/shippings').then((res)=>{
+      this.$api.shipping.getShippingList().then((res)=>{
         this.list = res.list;
       })
     },
-    // 打开新增地址弹框
     openAddressModal(){
       this.userAction = 0;
       this.checkedItem = {};
       this.showEditModal = true;
     },
-    // 打开新增地址弹框
     editAddressModal(item){
       this.userAction = 1;
       this.checkedItem = item;
@@ -211,34 +209,31 @@ export default{
       this.userAction = 2;
       this.showDelModal = true;
     },
-    // 地址删除、编辑、新增功能
     submitAddress(){
-      let {checkedItem,userAction} = this;
-      let method,url,params={};
-      if(userAction == 0){
-        method = 'post',url = '/shippings';
-      }else if(userAction == 1){
-        method = 'put',url = `/shippings/${checkedItem.id}`;
-      }else {
-        method = 'delete',url = `/shippings/${checkedItem.id}`;
+      const { checkedItem, userAction } = this;
+      const methods = ['addShipping', 'updateShipping', 'deleteShipping'];
+      let url = '';
+      let params = {};
+      if (userAction == 1 || userAction == 2) {
+        url = checkedItem.id;
       }
-      if(userAction == 0 || userAction ==1){
-        let { receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip} = checkedItem;
-        let errMsg='';
-        if(!receiverName){
+      if (userAction == 0 || userAction == 1) {
+        const { receiverName, receiverMobile, receiverProvince, receiverCity, receiverDistrict, receiverAddress, receiverZip } = checkedItem;
+        let errMsg = '';
+        if (!receiverName) {
           errMsg = '请输入收货人名称';
-        }else if(!receiverMobile || !/\d{11}/.test(receiverMobile)){
+        } else if (!receiverMobile || !/\d{11}/.test(receiverMobile)) {
           errMsg = '请输入正确格式的手机号';
-        }else if(!receiverProvince){
+        } else if (!receiverProvince) {
           errMsg = '请选择省份';
-        }else if(!receiverCity){
+        } else if (!receiverCity) {
           errMsg = '请选择对应的城市';
-        }else if(!receiverAddress || !receiverDistrict){
+        } else if (!receiverAddress || !receiverDistrict) {
           errMsg = '请输入收货地址';
-        }else if(!/\d{6}/.test(receiverZip)){
+        } else if (!/\d{6}/.test(receiverZip)) {
           errMsg = '请输入六位邮编';
         }
-        if(errMsg){
+        if (errMsg) {
           this.$message.error(errMsg);
           return;
         }
@@ -250,9 +245,11 @@ export default{
           receiverDistrict,
           receiverAddress,
           receiverZip
-        }
+        };
       }
-      this.axios[method](url,params).then(()=>{
+      const method = methods[userAction];
+      const args = userAction == 0 ? [params] : userAction == 1 ? [url, params] : [url];
+      this.$api.shipping[method](...args).then(() => {
         this.closeModal();
         this.getAddressList();
         this.$message.success('操作成功');
@@ -265,29 +262,28 @@ export default{
       this.showEditModal = false;
     },
     getCartList(){
-      this.axios.get('/carts').then((res)=>{
-        let list = res.cartProductVoList;//获取购物车中所有商品数据
-        this.cartTotalPrice = res.cartTotalPrice;//商品总金额
+      this.$api.cart.getCartList().then((res)=>{
+        let list = res.cartProductVoList;
+        this.cartTotalPrice = res.cartTotalPrice;
         this.cartList = list.filter(item=>item.productSelected);
         this.cartList.map((item)=>{
           this.count += item.quantity;
         })
       })
     },
-    // 订单提交
     orderSubmit(){
       let item = this.list[this.checkIndex];
       if(!item){
         this.$message.error('请选择一个收货地址');
         return;
       }
-      this.axios.post('/orders',{
+      this.$api.order.createOrder({
         shippingId:item.id
       }).then((res)=>{
         this.$router.push({
           path:'/order/pay',
           query:{
-            orderNo:res.orderNo //返回一个订单号
+            orderNo:res.orderNo
           }
         })
       })

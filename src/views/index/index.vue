@@ -7,10 +7,10 @@
             <li class="menu-item">
               <a href="javascript:;">手机 电话卡</a>
               <div class="children">
-                <ul v-for="(item,i) in menuList" v-bind:key="i">
-                  <li v-for="(sub,j) in item" v-bind:key="j">
-                    <a v-bind:href="sub?'/#/product/'+sub.id:''">
-                      <img v-bind:src="sub?sub.img:'/imgs/item-box-1.png'" alt="">
+                <ul v-for="(item, i) in menuList" :key="i">
+                  <li v-for="(sub, j) in item" :key="j">
+                    <a :href="sub ? '/#/product/' + sub.id : ''">
+                      <img :src="sub ? sub.img : '/imgs/item-box-1.png'" alt="">
                       {{ sub ? sub.name : '小米9' }}
                     </a>
                   </li>
@@ -42,11 +42,10 @@
         </div>
 
         <swiper :options="swiperOption">
-          <swiper-slide v-for="(item,index) in slideList" :key="index">
-            <a :href="'/#/product/'+item.id"><img v-lazy="item.img" alt=""></a>
+          <swiper-slide v-for="(item, index) in slideList" :key="index">
+            <a :href="'/#/product/' + item.id"><img v-lazy="item.img" alt=""></a>
 
           </swiper-slide>
-          <!--             控制圆点 -->
           <div class="swiper-pagination" slot="pagination"></div>
           <div class="swiper-button-prev" slot="button-prev"></div>
           <div class="swiper-button-next" slot="button-next"></div>
@@ -54,7 +53,7 @@
       </div>
       <div class="ads-box">
 
-        <a v-bind:href="'/#/product/'+item.id" v-for="(item,index) in adsList" :key="index">
+        <a :href="'/#/product/' + item.id" v-for="(item, index) in adsList" :key="index">
           <img v-lazy="item.img" alt="">
         </a>
 
@@ -79,22 +78,19 @@
             </a>
           </div>
           <div class="list-box">
-            <div class="list" v-for="(arr,index) in phoneList" :key="index">
+            <div class="list" v-for="(arr, index) in phoneList" :key="index">
 
-              <div class="item" v-for="(item ,j ) in arr" :key="j">
-                <span :class="[j%2===0?'new-pro':'kill-pro']">{{ j % 2 === 0 ? '新品' : '秒杀' }}</span>
+              <div class="item" v-for="(item, j) in arr" :key="j">
+                <span :class="[j % 2 === 0 ? 'new-pro' : 'kill-pro']">{{ j % 2 === 0 ? '新品' : '秒杀' }}</span>
                 <div class="item-img">
-                  <img
-                      v-lazy="item.mainImage"
-                      alt=""
-                  @click="$router.push('/product/'+item.id)">
+                  <img v-lazy="item.mainImage" alt="" @click="$router.push('/product/' + item.id)">
                   >
                 </div>
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
                   <p>{{ item.subtitle }}</p>
-                  <p class="price"  @click="$router.push('/product/'+item.id)">{{ item.price }}元起
-                  <span class="cart-icon"  @click.stop="addCarts(item.id)"></span>
+                  <p class="price" @click="$router.push('/product/' + item.id)">{{ item.price }}元起
+                    <span class="cart-icon" @click.stop="addCarts(item.id)"></span>
                   </p>
 
                 </div>
@@ -104,17 +100,9 @@
         </div>
       </div>
     </div>
-    <service-bar/>
-    <modal
-        title="提示"
-        sureType="查看购物车"
-        cancel-type="取消"
-        btnType="3"
-        modalType="middle"
-        :showModal="showModal"
-        @submit="goToCart"
-        @cancel="showModal=false"
-    >
+    <service-bar />
+    <modal title="提示" sureType="查看购物车" cancel-type="取消" btnType="3" modalType="middle" :showModal="showModal"
+      @submit="goToCart" @cancel="showModal = false">
       <template #body>
         <p>商品添加成功！</p>
       </template>
@@ -126,12 +114,11 @@
 <script>
 import ServiceBar from '@/components/ServiceBar/ServiceBar'
 import Modal from '@/components/Modal/modal'
-import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "Index",
+  name: "homeIndex",
   components: {
     Swiper,
     SwiperSlide,
@@ -157,7 +144,6 @@ export default {
           prevEl: '.swiper-button-prev',
         }
       },
-      //TODO:这里的路径使用相对路径就不行
       slideList: [{
         id: '42',
         img: '/imgs/slider/slide-1.jpg',
@@ -165,14 +151,14 @@ export default {
         id: '45',
         img: '/imgs/slider/slide-2.jpg',
       },
-        {
-          id: '46',
-          img: '/imgs/slider/slide-3.jpg',
-        },
-        {
-          id: '47',
-          img: '/imgs/slider/slide-4.jpg',
-        }
+      {
+        id: '46',
+        img: '/imgs/slider/slide-3.jpg',
+      },
+      {
+        id: '47',
+        img: '/imgs/slider/slide-4.jpg',
+      }
 
       ],
       menuList: [
@@ -182,18 +168,18 @@ export default {
             img: '/imgs/item-box-1.png',
             name: '小米CC9',
           }, {
-          id: 31,
-          img: '/imgs/item-box-2.png',
-          name: '小米8青春版',
-        }, {
-          id: 32,
-          img: '/imgs/item-box-3.jpg',
-          name: 'Redmi K20 Pro',
-        }, {
-          id: 33,
-          img: '/imgs/item-box-4.jpg',
-          name: '移动4G专区',
-        }
+            id: 31,
+            img: '/imgs/item-box-2.png',
+            name: '小米8青春版',
+          }, {
+            id: 32,
+            img: '/imgs/item-box-3.jpg',
+            name: 'Redmi K20 Pro',
+          }, {
+            id: 33,
+            img: '/imgs/item-box-4.jpg',
+            name: '移动4G专区',
+          }
         ],
         [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
       ],
@@ -220,36 +206,29 @@ export default {
     this.getPhoneList()
   }, methods: {
     getPhoneList() {
-      this.$http.get('/products', {
-        params: {
-          categoryId: 100012,
-          pageSize: 14
-        }
+      this.$api.product.getProductList({
+        categoryId: 100012,
+        pageSize: 14
       }).then(res => {
-        //slice方法和splice()方法的区别就是splice 方法会改变原数组，而slice方法不会
-        this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]//TODO:这种写法就是先将原数组分割成数组，然后放入一个数组，也就是二维数组
+        this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]
       })
     },
-    addCarts(id)  {
-     //TODO:未登录是不能加购物车的
-      if(this.$store.state.username===""){
+    addCarts(id) {
+      if (this.$store.state.username === "") {
         this.$message.error('请先登录！！！');
-      }else{
-        this.axios.post('/carts',{
-          productId:id,
+      } else {
+        this.$api.cart.addToCart({
+          productId: id,
           selected: true
-        }).then((res)=>{
+        }).then((res) => {
           this.showModal = true;
-          this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
+          this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
         });
       }
 
     },
-    goToCart(){
+    goToCart() {
       this.$router.push('/cart');
-    },
-    test(item){
-      console.log(item);
     }
   }
 
@@ -271,6 +250,7 @@ export default {
       padding: 26px 0;
       box-sizing: border-box;
       background-color: #55585a7a;
+
       .menu-wrap {
         .menu-item {
           height: 50px;
@@ -454,13 +434,6 @@ export default {
                 font-weight: bold;
                 cursor: pointer;
 
-                //&:after {
-                //  @include bgImg(22px, 22px, './../../../public/imgs/icon-cart-hover.png');
-                //  content: ' ';
-                //  margin-left: 5px;
-                //  vertical-align: middle;
-                //  margin-top: -5px;
-                //}
                 .cart-icon:after {
                   @include bgImg(22px, 22px, './../../../public/imgs/icon-cart-hover.png');
                   content: ' ';

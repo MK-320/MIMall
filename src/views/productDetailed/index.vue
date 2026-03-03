@@ -9,7 +9,6 @@
             <swiper-slide><img src="/imgs/detail/phone-2.jpg" alt=""></swiper-slide>
             <swiper-slide><img src="/imgs/detail/phone-3.jpg" alt=""></swiper-slide>
             <swiper-slide><img src="/imgs/detail/phone-4.jpg" alt=""></swiper-slide>
-            <!-- Optional controls -->
             <div class="swiper-pagination"  slot="pagination"></div>
           </swiper>
         </div>
@@ -68,9 +67,9 @@ export default{
   name:'productDetailed',
   data(){
     return {
-      id:this.$route.params.id,//获取商品ID
-      version:1,//商品版本切换
-      product:{},//商品信息
+      id:this.$route.params.id,
+      version:1,
+      product:{},
       swiperOption:{
         autoplay:true,
         pagination: {
@@ -91,19 +90,17 @@ export default{
   },
   methods:{
     getProductInfo(){
-      this.axios.get(`/products/${this.id}`).then((res)=>{
+      this.$api.product.getProductDetail(this.id).then((res)=>{
         this.product = res;
         console.log("商品的详细信息",this.product);
       })
     },
     addCart(){
-      this.axios.post('/carts',{
+      this.$api.cart.addToCart({
         productId:this.id,
         selected: true
       }).then((res={cartProductVoList:0})=>{
-
         this.$store.dispatch('saveCartCount',res.cartTotalQuantity);
-        // eslint-disable-next-line no-debugger
         console.log("添加购物车的回调",res);
         this.$router.push('/cart');
       })

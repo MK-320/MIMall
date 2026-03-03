@@ -1,94 +1,113 @@
-/*
- * @Author: Drgeek
- * @Date: 2022-05-09 15:13:06
- * @LastEditors: Drgeek
- * @LastEditTime: 2022-05-30 07:18:24
- * @FilePath: \MIMall\src\router\router.js
- * @Description:
- *
- * Copyright (c) 2022 by drgeek/noCompany, All Rights Reserved.
- */
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
+import VueCookie from "vue-cookie";
+import { Message } from "element-ui";
 
-Vue.use(Router);//Vue加载插件的固定写法
+Vue.use(Router);
+Vue.use(VueCookie);
 
+const originalPush = Router.prototype.push;
 
-const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err);
+};
 
-Router.prototype.push = function push (location) {
+const routes = [
+  {
+    path: "/",
+    name: "home",
+    redirect: "/index",
+    component: () => import("@/views/home/index.vue"),
+    children: [
+      {
+        path: "/index",
+        name: "index",
+        component: () => import("@/views/index/index"),
+      },
+      {
+        path: "/product/:id",
+        name: "product",
+        component: () => import("@/views/showProduct/index.vue"),
+      },
+      {
+        path: "/productDetailed/:id",
+        name: "productDetailed",
+        component: () => import("@/views/productDetailed/index.vue"),
+      },
+    ],
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/login/loginUser.vue"),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("@/views/register/registerUser.vue"),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: "/cart",
+    name: "cart",
+    component: () => import("@/views/cart/index.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/order",
+    name: "order",
+    component: () => import("@/views/order/index.vue"),
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "list",
+        name: "orderList",
+        component: () => import("@/views/orderList/index.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "confirm",
+        name: "orderConfirm",
+        component: () => import("@/views/orderConfirm/index.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "pay",
+        name: "orderPay",
+        component: () => import("@/views/orderPay/index.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "alipay",
+        name: "alipay",
+        component: () => import("@/views/alipay/index.vue"),
+        meta: { requiresAuth: true },
+      },
+    ],
+  },
+];
 
-    return originalPush.call(this, location).catch(err => err)
+const router = new Router({
+  routes,
+});
 
-}
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!Vue.cookie.get("userId");
 
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!isLoggedIn) {
+      Message.error("请先进行登录！");
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
-
-//导出一个Router的对象（里面是一些路由的配置）
-export default new Router({
-    //routes 配置的是路由的一系列的配置
-    routes: [
-        {
-            path: '/',
-            name:'home',
-             redirect:'/index',//页面默认加载的子路由，配合router-view 使用
-            component:()=>import('@/views/home/index.vue'),
-            children:[
-                {
-                    path:'/index',
-                    name:'index',
-                    component:()=>import('@/views/index/index')
-                },{
-                    path:'/product/:id',//动态传入参数
-                    name:'product',
-                    component:()=>import('@/views/showProduct/index.vue')
-                },{
-                    path:'/productDetailed/:id',//动态传入参数
-                    name:'productDetailed',
-                     component:()=>import('@/views/productDetailed/index.vue')
-                }
-            ]
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: () => import('@/views/login/loginUser.vue')
-        },
-        {
-            path: '/register',
-            name: 'register',
-             component: () => import('@/views/register/registerUser.vue')
-        },
-        {
-        //由于购物车页面和主页面不是共用头部导航的，所以需要将cart給剥离出来，不在home下面
-            path:'/cart',
-            name:'cart',
-            component:()=>import('@/views/cart/index.vue')
-        },{
-            path:'/order',
-            name:'order',
-            component:() => import('@/views/order/index.vue'),
-            children:[
-                {
-                path:'list',
-                name:'orderList',
-                 component:()=>import('@/views/orderList/index.vue')
-            },
-                {
-                    path:'confirm',
-                    name:'orderConfirm',
-                     component:()=>import('@/views/orderConfirm/index.vue')
-                },
-                {
-                    path:'pay',
-                    name:'orderPay',
-                     component:()=>import('@/views/orderPay/index.vue')
-                }, {
-                    path: 'alipay',
-                    name: 'alipay',
-                    component: () => import('@/views/alipay/index.vue')
-                }
-            ]
-        }
-    ]
-})
+export default router;

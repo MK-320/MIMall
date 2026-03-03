@@ -80,16 +80,16 @@ export default{
   name:'order-pay',
   data(){
     return {
-      orderId:this.$route.query.orderNo,//获取订单号
-      addressInfo:'',//收货人地址
-      orderDetail:[],//订单详情，包含商品列表
-      showDetail:false,//是否显示订单详情
-      payType:'',//支付类型
-      showPay:false,//是否显示微信支付弹框
-      payImg:'',//微信支付的二维码地址
-      showPayModal:false,//是否显示二次支付确认弹框
-      payment:0,//订单总金额
-      T:''//定时器ID
+      orderId:this.$route.query.orderNo,
+      addressInfo:'',
+      orderDetail:[],
+      showDetail:false,
+      payType:'',
+      showPay:false,
+      payImg:'',
+      showPayModal:false,
+      payment:0,
+      T:''
     }
   },
   components:{
@@ -102,7 +102,7 @@ export default{
   },
   methods:{
     getOrderDetail(){
-      this.axios.get(`/orders/${this.orderId}`).then((res)=>{
+      this.$api.order.getOrderDetail(this.orderId).then((res)=>{
         let item = res.shippingVo;
         this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`;
         this.orderDetail = res.orderItemVoList;
@@ -113,13 +113,12 @@ export default{
       if(payType == 1){
         window.open('/#/order/alipay?orderId='+this.orderId,'_blank');
       }else{
-        this.axios.post('/pay',{
+        this.$api.pay.pay({
           orderId:this.orderId,
           orderName:'小米商城订单',
-          amount:0.01,//单位元
-          payType:2 //1支付宝，2微信
+          amount:0.01,
+          payType:2
         }).then((res)=>{
-
           QRCode.toDataURL(res.content)
               .then(url => {
                 this.showPay = true;
@@ -132,18 +131,14 @@ export default{
         })
       }
     },
-    // 关闭微信弹框
     closePayModal(){
       this.showPay = false;
       this.showPayModal = true;
       clearInterval(this.T);
     },
-    // 轮询当前订单支付状态
     loopOrderState(){
-      //setinterval会不停的执行，settimeout只执行一次
       this.T = setInterval(()=>{
-        this.axios.get(`/orders/${this.orderId}`).then((res)=>{
-          //订单状态:0-已取消-10-未付款，20-已付款，40-已发货，50-交易成功，60-交易关闭
+        this.$api.order.getOrderDetail(this.orderId).then((res)=>{
           if(res.status == 20){
             clearInterval(this.T);
             this.goOrderList();

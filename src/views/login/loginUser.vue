@@ -20,7 +20,7 @@
           </div>
           <div class="tips">
             <div class="sms" @click="register">手机短信登录/注册</div>
-             <div class="reg"  @click="register">立即注册<span>|</span>忘记密码？</div>
+            <div class="reg" @click="register">立即注册<span>|</span>忘记密码？</div>
           </div>
         </div>
       </div>
@@ -41,136 +41,151 @@
 import { mapActions } from 'vuex';
 export default {
   name: 'loginUser',
-  data(){
+  data() {
     return {
-      username:'',
-      password:'',
-      userId:''
+      username: '',
+      password: '',
+      userId: ''
     }
   },
-  methods:{
-    login(){
-      //由于data中的数据是挂载再当前的this，也就是当前的组件对象上的，所以可以直接通过es6的解构获取
-      let { username,password } = this;
-      if(!username || !password){
+  methods: {
+    login() {
+      let { username, password } = this;
+      if (!username || !password) {
         this.$message.error('请输入正确的用户名和密码');
-        return;}
-      this.axios.post('/user/login',{
+        return;
+      }
+      this.$api.user.login({
         username,
         password
-      }).then((res)=>{
-         this.$cookie.set('userId',res.id,{expires:'Session'});
-         //TODO:将数据保存到vuex中去
-         // this.$store.dispatch('saveUserName',res.username);
-         this.saveUserName(res.username);
-         //query传参是拼接参数到路径中 ，类似于get请求，并且必须使用path 与之匹配
-        //params传参是不会明文显示的，但是必须使用name 与之匹配
+      }).then((res) => {
+        this.$cookie.set('userId', res.id, { expires: 'Session' });
+        this.saveUserName(res.username);
         this.$message.success('登录成功');
         this.$router.push({
-          name:'index',
-          params:{
-            from:'login'
+          name: 'index',
+          params: {
+            from: 'login'
           }
         });
       })
     },
-    ...mapActions(['saveUserName']),//将saveUserName方法映射到vuex中去 this.saveUserName 相当于 使用了 this.$store.dispatch('saveUserName')
-    register(){
+    ...mapActions(['saveUserName']),
+    register() {
       this.$router.push('/register');
     }
   }
 }
 </script>
 <style lang="scss">
-.login{
-  &>.container{
-    height:113px;
-    img{
-      width:auto;
-      height:100%;
+.login {
+  &>.container {
+    height: 113px;
+
+    img {
+      width: auto;
+      height: 100%;
     }
   }
-  .wrapper{
-    background:url('/public/imgs/login-bg.jpg') no-repeat center;
-    .container{
-      height:576px;
-      .login-form{
+
+  .wrapper {
+    background: url('/public/imgs/login-bg.jpg') no-repeat center;
+
+    .container {
+      height: 576px;
+
+      .login-form {
         box-sizing: border-box;
         padding-left: 31px;
         padding-right: 31px;
-        width:410px;
-        height:510px;
-        background-color:#ffffff;
-        position:absolute;
-        bottom:29px;
-        right:0;
-        h3{
-          line-height:23px;
-          font-size:24px;
-          text-align:center;
-          margin:40px auto 49px;
-          .checked{
-            color:#FF6600;
+        width: 410px;
+        height: 510px;
+        background-color: #ffffff;
+        position: absolute;
+        bottom: 29px;
+        right: 0;
+
+        h3 {
+          line-height: 23px;
+          font-size: 24px;
+          text-align: center;
+          margin: 40px auto 49px;
+
+          .checked {
+            color: #FF6600;
           }
-          .sep-line{
-            margin:0 32px;
+
+          .sep-line {
+            margin: 0 32px;
           }
         }
-        .input{
-          display:inline-block;
-          width:348px;
-          height:50px;
-          border:1px solid #E5E5E5;
-          margin-bottom:20px;
-          input{
+
+        .input {
+          display: inline-block;
+          width: 348px;
+          height: 50px;
+          border: 1px solid #E5E5E5;
+          margin-bottom: 20px;
+
+          input {
             width: 100%;
             height: 100%;
             border: none;
             padding: 18px;
           }
         }
-        .btn{
-          width:100%;
-          line-height:50px;
-          margin-top:10px;
-          font-size:16px;
+
+        .btn {
+          width: 100%;
+          line-height: 50px;
+          margin-top: 10px;
+          font-size: 16px;
         }
-        .tips{
-          margin-top:14px;
-          display:flex;
-          justify-content:space-between;
-          font-size:14px;
-          cursor:pointer;
-          .sms{
-            color:#FF6600;
+
+        .tips {
+          margin-top: 14px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 14px;
+          cursor: pointer;
+
+          .sms {
+            color: #FF6600;
           }
-          .reg{
-            color:#999999;
-            span{
-              margin:0 7px;
+
+          .reg {
+            color: #999999;
+
+            span {
+              margin: 0 7px;
             }
           }
         }
       }
     }
   }
-  .footer{
-    height:100px;
-    padding-top:60px;
-    color:#999999;
-    font-size:16px;
-    text-align:center;
-    .footer-link{
-      a{
-        color:#999999;
-        display:inline-block;
+
+  .footer {
+    height: 100px;
+    padding-top: 60px;
+    color: #999999;
+    font-size: 16px;
+    text-align: center;
+
+    .footer-link {
+      a {
+        color: #999999;
+        display: inline-block;
       }
-      span{
-        margin:0 10px;
+
+      span {
+        margin: 0 10px;
       }
     }
-    .copyright{
-      margin-top:13px;
+
+    .copyright {
+      margin-top: 13px;
     }
   }
-}</style>
+}
+</style>
