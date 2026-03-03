@@ -210,29 +210,23 @@ export default {
     this.getPhoneList();
   },
   methods: {
-    getPhoneList() {
-      this.$api.product
-        .getProductList({
-          categoryId: 100012,
-          pageSize: 14,
-        })
-        .then((res) => {
-          this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
-        });
+    async getPhoneList() {
+      const res = await this.$api.product.getProductList({
+        categoryId: 100012,
+        pageSize: 14,
+      })
+      this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
     },
-    addCarts(id) {
+    async addCarts(id) {
       if (this.$store.state.username === "") {
         this.$message.error("请先登录！！！");
       } else {
-        this.$api.cart
-          .addToCart({
-            productId: id,
-            selected: true,
-          })
-          .then((res) => {
-            this.showModal = true;
-            this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
-          });
+        const res = await this.$api.cart.addToCart({
+          productId: id,
+          selected: true,
+        })
+        this.showModal = true;
+        this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
       }
     },
     goToCart() {

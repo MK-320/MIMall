@@ -147,19 +147,17 @@ export default {
     }
   },
   methods: {
-    getPhoneList() {
-      this.$api.product.getProductList({
+    async getPhoneList() {
+      const res = await this.$api.product.getProductList({
         categoryId: '100012',
-      }).then(res => {
-        if (res.list.length >= 6) {
-          this.phoneList = res.list.slice(0, 6)
-        }
       })
+      if (res.list.length >= 6) {
+        this.phoneList = res.list.slice(0, 6)
+      }
     },
-    getCartCount() {
-      this.$api.cart.getCartSum().then((res = 0) => {
-        this.$store.dispatch('saveCartCount', res);
-      });
+    async getCartCount() {
+      const res = await this.$api.cart.getCartSum()
+      this.$store.dispatch('saveCartCount', res || 0)
     },
     goToCart() {
       this.$router.push('/cart')
@@ -167,13 +165,12 @@ export default {
     login() {
       this.$router.push('/login')
     },
-    loginOut() {
-      this.$api.user.logout().then(() => {
-        this.$message.success('退出登录成功');
-        this.$cookie.set('token', '', { expires: -1 });
-        this.$store.dispatch('saveUserName', '');
-        this.$store.dispatch('saveCartCount', 0);
-      })
+    async loginOut() {
+      await this.$api.user.logout()
+      this.$message.success('退出登录成功')
+      this.$cookie.set('token', '', { expires: -1 })
+      this.$store.dispatch('saveUserName', '')
+      this.$store.dispatch('saveCartCount', 0)
     },
 
   }

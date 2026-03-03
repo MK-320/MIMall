@@ -12,25 +12,21 @@ export default {
       res:{}
     }
   },
-  components: {},
-  mounted() {
+  async mounted() {
     if(this.$cookie.get('token')){
-      this.getUser();
-      this.getCartCount();
+      await this.getUser();
+      await this.getCartCount();
     }
-
-  },methods:{
-    getUser(){
-      this.$api.user.getUserInfo().then((res={}) => {
-        this.$store.dispatch('saveUserName',res.username);
-      });
+  },
+  methods:{
+    async getUser(){
+      const res = await this.$api.user.getUserInfo()
+      this.$store.dispatch('saveUserName', res.username)
     },
-    getCartCount(){
-      this.$api.cart.getCartSum().then((res=0) => {
-        this.$store.dispatch('saveCartCount',res);
-      });
+    async getCartCount(){
+      const res = await this.$api.cart.getCartSum()
+      this.$store.dispatch('saveCartCount', res || 0)
     }
-
   }
 }
 </script>

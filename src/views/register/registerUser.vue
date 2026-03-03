@@ -14,11 +14,13 @@
         <div class="register-user-info-box">
           <div class="user-info-title-box">
             <div>
-              <svg width="40px" height="40px" viewBox="0 0 193 193" class="mi-layout__logo"><title>编组</title>
+              <svg width="40px" height="40px" viewBox="0 0 193 193" class="mi-layout__logo">
+                <title>编组</title>
                 <desc>Created with Sketch.</desc>
                 <defs>
                   <polygon id="path-1"
-                           points="1.78097075e-14 0.000125324675 192.540685 0.000125324675 192.540685 192.540058 1.78097075e-14 192.540058"></polygon>
+                    points="1.78097075e-14 0.000125324675 192.540685 0.000125324675 192.540685 192.540058 1.78097075e-14 192.540058">
+                  </polygon>
                 </defs>
                 <g id="\u9875\u9762-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                   <g id="\u7F16\u7EC4">
@@ -27,17 +29,17 @@
                     </mask>
                     <g id="Clip-2"></g>
                     <path
-                        d="M172.473071,20.1164903 C154.306633,2.02148701 128.188344,-1.78097075e-14 96.2706558,-1.78097075e-14 C64.312237,-1.78097075e-14 38.155724,2.0452987 19.9974318,20.1872987 C1.84352597,38.3261656 1.78097075e-14,64.4406948 1.78097075e-14,96.3640227 C1.78097075e-14,128.286724 1.84352597,154.415039 20.0049513,172.556412 C38.1638701,190.704052 64.3141169,192.540058 96.2706558,192.540058 C128.225942,192.540058 154.376815,190.704052 172.53636,172.556412 C190.694653,154.409399 192.540685,128.286724 192.540685,96.3640227 C192.540685,64.3999643 190.672721,38.2553571 172.473071,20.1164903"
-                        id="Fill-1" fill="#FF6900" mask="url(#mask-2)"></path>
+                      d="M172.473071,20.1164903 C154.306633,2.02148701 128.188344,-1.78097075e-14 96.2706558,-1.78097075e-14 C64.312237,-1.78097075e-14 38.155724,2.0452987 19.9974318,20.1872987 C1.84352597,38.3261656 1.78097075e-14,64.4406948 1.78097075e-14,96.3640227 C1.78097075e-14,128.286724 1.84352597,154.415039 20.0049513,172.556412 C38.1638701,190.704052 64.3141169,192.540058 96.2706558,192.540058 C128.225942,192.540058 154.376815,190.704052 172.53636,172.556412 C190.694653,154.409399 192.540685,128.286724 192.540685,96.3640227 C192.540685,64.3999643 190.672721,38.2553571 172.473071,20.1164903"
+                      id="Fill-1" fill="#FF6900" mask="url(#mask-2)"></path>
                     <path
-                        d="M89.1841721,131.948836 C89.1841721,132.594885 88.640263,133.130648 87.9779221,133.130648 H71.5585097 C70.8848896,133.130648 70.338474,132.594885 70.338474,131.948836 V89.0100961 C70.338474,88.3584078 70.8848896,87.8251513 71.5585097,87.8251513 H87.9779221 C88.640263,87.8251513 89.1841721,88.3584078 89.1841721,89.0100961 V131.948836 Z"
-                        id="Fill-3" fill="#FFFFFF" mask="url(#mask-2)"></path>
+                      d="M89.1841721,131.948836 C89.1841721,132.594885 88.640263,133.130648 87.9779221,133.130648 H71.5585097 C70.8848896,133.130648 70.338474,132.594885 70.338474,131.948836 V89.0100961 C70.338474,88.3584078 70.8848896,87.8251513 71.5585097,87.8251513 H87.9779221 C88.640263,87.8251513 89.1841721,88.3584078 89.1841721,89.0100961 V131.948836 Z"
+                      id="Fill-3" fill="#FFFFFF" mask="url(#mask-2)"></path>
                     <path
-                        d="M121.332896,131.948836 C121.332896,132.594885 120.786481,133.130648 120.121633,133.130648 H104.492393 C103.821906,133.130648 103.275491,132.594885 103.275491,131.948836 V131.788421 L103.275491,94.9022357 C103.259198,88.4342292 102.889491,81.7863818 99.5502146,78.445226 C96.6790263,75.5652649 91.3251562,74.9054305 85.7557276,74.7669468 L57.4242049,74.7669468 C56.7555977,74.7669468 56.2154484,75.3045896 56.2154484,75.9512649 L56.2154484,128.074424 L56.2154484,131.948836 C56.2154484,132.594885 55.6640198,133.130648 54.9954127,133.130648 L39.3555198,133.130648 C38.6875393,133.130648 38.1498964,132.594885 38.1498964,131.948836 L38.1498964,60.5996188 C38.1498964,59.9447974 38.6875393,59.4121675 39.3555198,59.4121675 L84.4786692,59.4121675 C96.2717211,59.4121675 108.599909,59.9498104 114.680036,66.0380831 C120.786481,72.1533006 121.332896,84.4595571 121.332896,96.2657682 L121.332896,131.948836 Z"
-                        id="Fill-5" fill="#FFFFFF" mask="url(#mask-2)"></path>
+                      d="M121.332896,131.948836 C121.332896,132.594885 120.786481,133.130648 120.121633,133.130648 H104.492393 C103.821906,133.130648 103.275491,132.594885 103.275491,131.948836 V131.788421 L103.275491,94.9022357 C103.259198,88.4342292 102.889491,81.7863818 99.5502146,78.445226 C96.6790263,75.5652649 91.3251562,74.9054305 85.7557276,74.7669468 L57.4242049,74.7669468 C56.7555977,74.7669468 56.2154484,75.3045896 56.2154484,75.9512649 L56.2154484,128.074424 L56.2154484,131.948836 C56.2154484,132.594885 55.6640198,133.130648 54.9954127,133.130648 L39.3555198,133.130648 C38.6875393,133.130648 38.1498964,132.594885 38.1498964,131.948836 L38.1498964,60.5996188 C38.1498964,59.9447974 38.6875393,59.4121675 39.3555198,59.4121675 L84.4786692,59.4121675 C96.2717211,59.4121675 108.599909,59.9498104 114.680036,66.0380831 C120.786481,72.1533006 121.332896,84.4595571 121.332896,96.2657682 L121.332896,131.948836 Z"
+                      id="Fill-5" fill="#FFFFFF" mask="url(#mask-2)"></path>
                     <path
-                        d="M153.53056,131.948836 C153.53056,132.594885 152.978505,133.130648 152.316164,133.130648 L136.678778,133.130648 C136.010797,133.130648 135.467515,132.594885 135.467515,131.948836 L135.467515,60.5996188 C135.467515,59.9447974 136.010797,59.4121675 136.678778,59.4121675 L152.316164,59.4121675 C152.978505,59.4121675 153.53056,59.9447974 153.53056,60.5996188 L153.53056,131.948836 Z"
-                        id="Fill-7" fill="#FFFFFF" mask="url(#mask-2)"></path>
+                      d="M153.53056,131.948836 C153.53056,132.594885 152.978505,133.130648 152.316164,133.130648 L136.678778,133.130648 C136.010797,133.130648 135.467515,132.594885 135.467515,131.948836 L135.467515,60.5996188 C135.467515,59.9447974 136.010797,59.4121675 136.678778,59.4121675 L152.316164,59.4121675 C152.978505,59.4121675 153.53056,59.9447974 153.53056,60.5996188 L153.53056,131.948836 Z"
+                      id="Fill-7" fill="#FFFFFF" mask="url(#mask-2)"></path>
                   </g>
                 </g>
               </svg>
@@ -51,23 +53,26 @@
 
               <div class="input-wrapper">
                 <label for="name-ipt">NAME</label>
-                <input type="text" id="name-ipt" v-model="username" class="name-ipt" @blur="validateUsername" @input="clearUsernameError">
+                <input type="text" id="name-ipt" v-model="username" class="name-ipt" @blur="validateUsername"
+                  @input="clearUsernameError">
                 <div v-if="usernameError" class="error-message">{{ usernameError }}</div>
               </div>
 
               <div class="input-wrapper">
                 <label for="email-ipt">E-MAIL</label>
-                <input type="email" id="email-ipt" v-model="email" class="email-ipt" @blur="validateEmail" @input="clearEmailError">
+                <input type="email" id="email-ipt" v-model="email" class="email-ipt" @blur="validateEmail"
+                  @input="clearEmailError">
                 <div v-if="emailError" class="error-message">{{ emailError }}</div>
               </div>
 
               <div class="input-wrapper">
                 <label for="password-ipt">PASSWORD</label>
-                <input type="password" id="password-ipt" v-model="password" class="password-ipt" @blur="validatePassword" @input="clearPasswordError">
+                <input type="password" id="password-ipt" v-model="password" class="password-ipt"
+                  @blur="validatePassword" @input="clearPasswordError">
                 <div v-if="passwordError" class="error-message">{{ passwordError }}</div>
               </div>
 
-              <button class="custom-btn btn-3" @click="goRegister(username,password,email)"><span>GET STARED</span>
+              <button class="custom-btn btn-3" @click="goRegister(username, password, email)"><span>GET STARED</span>
               </button>
             </form>
 
@@ -138,7 +143,7 @@ export default {
         this.passwordError = '';
       }
     },
-    goRegister() {
+    async goRegister() {
       this.validateUsername();
       this.validateEmail();
       this.validatePassword();
@@ -148,11 +153,12 @@ export default {
         return;
       }
 
-      this.$api.user.register({
-        username: this.username,
-        password: this.password,
-        email: this.email
-      }).then((res) => {
+      try {
+        await this.$api.user.register({
+          username: this.username,
+          password: this.password,
+          email: this.email
+        })
         this.$message({
           message: '注册成功，请去登录',
           type: 'success',
@@ -167,15 +173,14 @@ export default {
         setTimeout(() => {
           this.$router.push('/login');
         }, 1500);
-      }).catch((error) => {
+      } catch (error) {
         this.$message.error(error.msg || error.response?.data?.msg || '注册失败，请稍后重试');
-      });
+      }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-
 .el-message {
   .el-message__content {
     text-align: center !important;
@@ -253,7 +258,7 @@ h4 {
   overflow: hidden;
 }
 
-.registerUser .register-box > div {
+.registerUser .register-box>div {
   width: 50%;
   height: 100%;
   float: left;
@@ -272,7 +277,7 @@ h4 {
   float: left;
 }
 
-.registerUser .gallery-title-box > * {
+.registerUser .gallery-title-box>* {
   color: #e9e9e9;
 }
 
@@ -302,10 +307,12 @@ h4 {
   padding: 60px 50px;
   color: #343a40;
 }
-.registerUser .user-info-title-box .mi-layout__logo{
+
+.registerUser .user-info-title-box .mi-layout__logo {
   float: left;
   margin-right: 10px;
 }
+
 .registerUser .user-info-title-box h1 {
   font-size: 30px;
   font-weight: bold;
@@ -327,7 +334,7 @@ h4 {
   margin-top: 30px;
 }
 
-.registerUser .user-info-form > div {
+.registerUser .user-info-form>div {
   width: 100%;
 }
 
@@ -481,5 +488,4 @@ h4 {
 .registerUser .user-info-form input.success {
   border-bottom: solid 1px #2ecc71 !important;
 }
-
 </style>

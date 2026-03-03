@@ -83,18 +83,17 @@ export default {
     this.getProductInfo();
   },
   methods: {
-    getProductInfo() {
+    async getProductInfo() {
       let id = this.$route.params.id;
       console.log("路由传过来的商品id是：", id);
-      this.$api.product.getProductDetail(id).then((res) => {
-        this.product = res;
-        console.log("商品信息：", this.product);
-        this.$nextTick(() => {
-          if (this.$refs.bgImg && this.product.mainImage) {
-            this.$refs.bgImg.style.setProperty('--bg-image', `url(${this.product.mainImage})`);
-          }
-        });
-      })
+      const res = await this.$api.product.getProductDetail(id)
+      this.product = res;
+      console.log("商品信息：", this.product);
+      this.$nextTick(() => {
+        if (this.$refs.bgImg && this.product.mainImage) {
+          this.$refs.bgImg.style.setProperty('--bg-image', `url(${this.product.mainImage})`);
+        }
+      });
     },
     buy() {
       let id = this.$route.params.id;

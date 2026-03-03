@@ -49,26 +49,25 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       let { username, password } = this;
       if (!username || !password) {
         this.$message.error('请输入正确的用户名和密码');
         return;
       }
-      this.$api.user.login({
+      const res = await this.$api.user.login({
         username,
         password
-      }).then((res) => {
-        this.$cookie.set('token', res.token, { expires: 1 });
-        this.saveUserName(res.username);
-        this.$message.success('登录成功');
-        this.$router.push({
-          name: 'index',
-          params: {
-            from: 'login'
-          }
-        });
       })
+      this.$cookie.set('token', res.token, { expires: 1 });
+      this.saveUserName(res.username);
+      this.$message.success('登录成功');
+      this.$router.push({
+        name: 'index',
+        params: {
+          from: 'login'
+        }
+      });
     },
     ...mapActions(['saveUserName']),
     register() {

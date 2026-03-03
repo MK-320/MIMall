@@ -189,10 +189,9 @@ export default{
     this.getCartList();
   },
   methods:{
-    getAddressList(){
-      this.$api.shipping.getShippingList().then((res)=>{
-        this.list = res.list;
-      })
+    async getAddressList(){
+      const res = await this.$api.shipping.getShippingList()
+      this.list = res.list
     },
     openAddressModal(){
       this.userAction = 0;
@@ -209,9 +208,9 @@ export default{
       this.userAction = 2;
       this.showDelModal = true;
     },
-    submitAddress(){
+    async submitAddress(){
       const { checkedItem, userAction } = this;
-      const methods = ['addShipping', 'updateShipping', 'deleteShipping'];
+      const methods = ['addShipping', 'updateShipping', 'deleteShipping']; // 定义映射表
       let url = '';
       let params = {};
       if (userAction == 1 || userAction == 2) {
@@ -247,13 +246,13 @@ export default{
           receiverZip
         };
       }
+      // 动态传入调用的函数
       const method = methods[userAction];
       const args = userAction == 0 ? [params] : userAction == 1 ? [url, params] : [url];
-      this.$api.shipping[method](...args).then(() => {
-        this.closeModal();
-        this.getAddressList();
-        this.$message.success('操作成功');
-      });
+      await this.$api.shipping[method](...args)
+      this.closeModal();
+      this.getAddressList();
+      this.$message.success('操作成功');
     },
     closeModal(){
       this.checkedItem = {};
@@ -261,31 +260,29 @@ export default{
       this.showDelModal = false;
       this.showEditModal = false;
     },
-    getCartList(){
-      this.$api.cart.getCartList().then((res)=>{
-        let list = res.cartProductVoList;
-        this.cartTotalPrice = res.cartTotalPrice;
-        this.cartList = list.filter(item=>item.productSelected);
-        this.cartList.map((item)=>{
-          this.count += item.quantity;
-        })
+    async getCartList(){
+      const res = await this.$api.cart.getCartList()
+      let list = res.cartProductVoList;
+      this.cartTotalPrice = res.cartTotalPrice;
+      this.cartList = list.filter(item=>item.productSelected);
+      this.cartList.map((item)=>{
+        this.count += item.quantity;
       })
     },
-    orderSubmit(){
+    async orderSubmit(){
       let item = this.list[this.checkIndex];
       if(!item){
         this.$message.error('请选择一个收货地址');
         return;
       }
-      this.$api.order.createOrder({
+      const res = await this.$api.order.createOrder({
         shippingId:item.id
-      }).then((res)=>{
-        this.$router.push({
-          path:'/order/pay',
-          query:{
-            orderNo:res.orderNo
-          }
-        })
+      })
+      this.$router.push({
+        path:'/order/pay',
+        query:{
+          orderNo:res.orderNo
+        }
       })
     }
   }

@@ -78,12 +78,11 @@ export default {
     this.getCartList();
   },
   methods: {
-    getCartList() {
-      this.$api.cart.getCartList().then((res) => {
-        this.renderData(res);
-      })
+    async getCartList() {
+      const res = await this.$api.cart.getCartList()
+      this.renderData(res)
     },
-    updateCart(item, type) {
+    async updateCart(item, type) {
       let quantity = item.quantity,
         selected = item.productSelected;
       if (type == '-') {
@@ -101,29 +100,25 @@ export default {
       } else {
         selected = !item.productSelected;
       }
-      this.$api.cart.updateCart(item.productId, {
+      const res = await this.$api.cart.updateCart(item.productId, {
         quantity,
         selected
-      }).then((res) => {
-        this.renderData(res);
       })
+      this.renderData(res)
     },
-    delProduct(item) {
-      this.$api.cart.deleteCart(item.productId).then((res) => {
-        this.$message.success('删除成功');
-        this.renderData(res);
-      });
+    async delProduct(item) {
+      const res = await this.$api.cart.deleteCart(item.productId)
+      this.$message.success('删除成功');
+      this.renderData(res)
     },
-    toggleAll() {
+    async toggleAll() {
+      let res
       if (this.allChecked) {
-        this.$api.cart.unSelectAllCart().then((res) => {
-          this.renderData(res);
-        })
+        res = await this.$api.cart.unSelectAllCart()
       } else {
-        this.$api.cart.selectAllCart().then((res) => {
-          this.renderData(res);
-        })
+        res = await this.$api.cart.selectAllCart()
       }
+      this.renderData(res)
     },
     renderData(res) {
       this.list = res.cartProductVoList || [];

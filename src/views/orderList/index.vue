@@ -96,34 +96,36 @@ export default {
     this.getOrderList();
   },
   methods: {
-    getOrderList() {
+    async getOrderList() {
       this.loading = true;
       this.busy= true;
-      this.$api.order.getOrderList({
+      try {
+        const res = await this.$api.order.getOrderList({
           pageSize: this.pageSize,
           pageNum: this.pageNum
-      }).then((res) => {
+        })
         this.loading = false;
         this.list = this.list.concat(res.list)
         this.total = res.total;
         this.showNextPage = res.hasNextPage;
         this.busy = false;
-      }).catch(() => {
+      } catch {
         this.loading = false;
-      })
+      }
     },
-    getOrderListForPagination() {
+    async getOrderListForPagination() {
       this.loading = true;
-      this.$api.order.getOrderList({
+      try {
+        const res = await this.$api.order.getOrderList({
           pageSize: 5,
           pageNum: this.pageNum
-      }).then((res) => {
+        })
         this.loading = false;
         this.list = res.list
         this.total = res.total;
-      }).catch(() => {
+      } catch {
         this.loading = false;
-      })
+      }
     },
     goPay(orderNo) {
       this.$router.push({name: 'orderPay', query: {orderNo}});
@@ -143,12 +145,13 @@ export default {
         this.getList();
       },500);
     },
-    getList(){
+    async getList(){
       this.loading = true;
-      this.$api.order.getOrderList({
+      try {
+        const res = await this.$api.order.getOrderList({
           pageSize: 10,
           pageNum: this.pageNum
-      }).then((res) => {
+        })
         this.list = this.list.concat(res.list)
         this.loading = false;
         if(res.hasNextPage){
@@ -156,9 +159,9 @@ export default {
         }else{
           this.busy = true;
         }
-      }).catch(() => {
+      } catch {
         this.loading = false;
-      })
+      }
     }
 
   }

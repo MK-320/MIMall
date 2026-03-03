@@ -101,34 +101,32 @@ export default{
      this.getOrderDetail();
   },
   methods:{
-    getOrderDetail(){
-      this.$api.order.getOrderDetail(this.orderId).then((res)=>{
-        let item = res.shippingVo;
-        this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`;
-        this.orderDetail = res.orderItemVoList;
-        this.payment = res.payment;
-      })
+    async getOrderDetail(){
+      const res = await this.$api.order.getOrderDetail(this.orderId)
+      let item = res.shippingVo;
+      this.addressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress}`;
+      this.orderDetail = res.orderItemVoList;
+      this.payment = res.payment;
     },
-    paySubmit(payType){
+    async paySubmit(payType){
       if(payType == 1){
         window.open('/#/order/alipay?orderId='+this.orderId,'_blank');
       }else{
-        this.$api.pay.pay({
+        const res = await this.$api.pay.pay({
           orderId:this.orderId,
           orderName:'小米商城订单',
           amount:0.01,
           payType:2
-        }).then((res)=>{
-          QRCode.toDataURL(res.content)
-              .then(url => {
-                this.showPay = true;
-                this.payImg = url;
-                this.loopOrderState();
-              })
-              .catch(() => {
-                this.$message.error('微信二维码生成失败，请稍后重试');
-              })
         })
+        QRCode.toDataURL(res.content)
+            .then(url => {
+              this.showPay = true;
+              this.payImg = url;
+              this.loopOrderState();
+            })
+            .catch(() => {
+              this.$message.error('微信二维码生成失败，请稍后重试');
+            })
       }
     },
     closePayModal(){
@@ -137,13 +135,12 @@ export default{
       clearInterval(this.T);
     },
     loopOrderState(){
-      this.T = setInterval(()=>{
-        this.$api.order.getOrderDetail(this.orderId).then((res)=>{
-          if(res.status == 20){
-            clearInterval(this.T);
-            this.goOrderList();
-          }
-        })
+      this.T = setInterval(async ()=>{
+        const res = await this.$api.order.getOrderDetail(this.orderId)
+        if(res.status == 20){
+          clearInterval(this.T);
+          this.goOrderList();
+        }
       },1000);
     },
     goOrderList(){

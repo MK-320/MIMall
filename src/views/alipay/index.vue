@@ -29,18 +29,17 @@ export default{
     this.paySubmit();
   },
   methods:{
-    paySubmit(){
-      this.$api.pay.pay({
+    async paySubmit(){
+      const res = await this.$api.pay.pay({
         orderId:this.orderId,
         orderName:'小米商城订单',
         amount:0.01,
         payType:1
-      }).then((res)=>{
-        this.content = res.content;
-        setTimeout(()=>{
-          document.forms[0].submit();
-        },100)
       })
+      this.content = res.content;
+      setTimeout(() => {
+        document.forms[0].submit();
+      },100)
     }
   }
 }
