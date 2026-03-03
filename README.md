@@ -37,6 +37,7 @@ MIMall 是一个使用 **Vue 2.x** 开发的高仿小米商城前端项目，覆
 - **样式**: Sass/SCSS
 - **轮播**: Swiper 5 / `vue-awesome-swiper`
 - **本地 Mock API**: Koa + `@koa/router` + `koa-bodyparser`
+- **认证**: JWT (JSON Web Token)
 
 ---
 
@@ -48,7 +49,9 @@ MIMall/
 │                          # 注意：由于原始后端服务不可用，此目录提供 Mock 接口用于开发
 │   ├── app.js             # Koa 启动入口
 │   ├── mall.js            # 业务接口（/api 前缀）
-│   └── data.json          # 简易"用户数据"持久化（首次运行会自动生成）
+│   ├── data.json          # 简易"用户数据"持久化（首次运行会自动生成）
+│   ├── .env.example       # 环境变量示例文件（需复制为 .env 使用）
+│   └── .env               # 环境变量配置（包含 JWT_SECRET，不提交到仓库）
 ├── public/                # 静态资源（图片、index.html 等）
 ├── src/
 │   ├── main.js            # 入口：Axios 拦截器/全局插件注册等
@@ -56,7 +59,8 @@ MIMall/
 │   ├── store/             # Vuex（用户名、购物车数量）
 │   ├── components/        # 公共组件（Header/Footer/Modal/Loading 等）
 │   ├── views/             # 页面（首页/详情/购物车/订单/登录注册等）
-│   └── storage/           # sessionStorage 封装
+│   ├── storage/           # sessionStorage 封装
+│   └── api/               # API 接口封装（axios 请求模块化）
 ├── vue.config.js          # 开发代理配置（/api -> http://localhost:3000）
 └── package.json
 ```
@@ -84,6 +88,23 @@ MIMall/
 ```bash
 cd koa-mock
 npm install
+```
+
+**配置环境变量（重要）**：
+
+```bash
+# 复制环境变量示例文件
+cp .env.example .env
+
+# 编辑 .env 文件，设置你的 JWT 密钥
+# JWT_SECRET=your_jwt_secret_key_here
+```
+
+> **说明**：如果不配置 `.env` 文件，系统会使用默认密钥并输出警告（仅限开发环境）。生产环境必须配置 `JWT_SECRET` 环境变量。
+
+启动服务：
+
+```bash
 npm run dev
 ```
 
@@ -140,14 +161,25 @@ npm run serve
 
 以上逻辑在 `src/main.js` 的 `axios.interceptors.response` 中统一处理。
 
-### Cookie 登录态
+### JWT Token 认证
 
-Mock 登录成功后会下发 Cookie：
+项目使用 JWT (JSON Web Token) 进行用户认证：
 
-- `mallUserId`
-- `mallUserName`
+1. **登录流程**：
+   - 用户登录成功后，后端生成 JWT Token 并返回
+   - 前端将 Token 存储在 Cookie 中（有效期 1 天）
 
-后续需要登录态的接口，会通过读取 Cookie 来校验是否登录（见 `koa-mock/app.js` / `koa-mock/mall.js`）。
+2. **请求认证**：
+   - 前端请求拦截器自动从 Cookie 读取 Token
+   - 将 Token 添加到请求头 `Authorization: Bearer <token>`
+
+3. **路由守卫**：
+   - 访问需要登录的页面时，检查 Cookie 中是否存在 Token
+   - 未登录则跳转到登录页
+
+4. **Token 验证**：
+   - 后端验证 Token 的有效性和过期时间
+   - Token 无效或过期返回 `status: 10`，前端跳转登录页
 
 ---
 
@@ -241,10 +273,17 @@ npm run dev
 ### 2) 登录后仍提示未登录（status=10）
 
 - 确认登录接口返回是否成功（`status === 0`）
-- 确认浏览器里是否有 `mallUserId` / `mallUserName` Cookie
-- 若你改过端口/域名，注意 Cookie 与同源/代理关系可能会影响登录态
+- 确认浏览器 Cookie 中是否有 `token` 字段
+- 检查请求头是否包含 `Authorization: Bearer <token>`
+- 若 Token 过期，需重新登录
 
-### 3) 修改了 `vue.config.js` 但不生效
+### 3) JWT_SECRET 相关问题
+
+- 开发环境：如果不配置 `.env`，系统会使用默认密钥并输出警告
+- 生产环境：必须设置 `JWT_SECRET` 环境变量
+- 克隆仓库后：复制 `.env.example` 为 `.env` 并修改密钥值
+
+### 4) 修改了 `vue.config.js` 但不生效
 
 `vue.config.js` 属于构建配置文件，修改后需要**重启前端开发服务器**。
 

@@ -93,7 +93,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = !!Vue.cookie.get("userId");
+ const isLoggedIn = !!Vue.cookie.get('token')
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isLoggedIn) {

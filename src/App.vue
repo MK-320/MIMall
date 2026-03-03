@@ -14,7 +14,7 @@ export default {
   },
   components: {},
   mounted() {
-    if(this.$cookie.get('userId')){
+    if(this.$cookie.get('token')){
       this.getUser();
       this.getCartCount();
     }

@@ -10,8 +10,8 @@
                 <ul v-for="(item, i) in menuList" :key="i">
                   <li v-for="(sub, j) in item" :key="j">
                     <a :href="sub ? '/#/product/' + sub.id : ''">
-                      <img :src="sub ? sub.img : '/imgs/item-box-1.png'" alt="">
-                      {{ sub ? sub.name : '小米9' }}
+                      <img :src="sub ? sub.img : '/imgs/item-box-1.png'" alt="" />
+                      {{ sub ? sub.name : "小米9" }}
                     </a>
                   </li>
                 </ul>
@@ -43,8 +43,7 @@
 
         <swiper :options="swiperOption">
           <swiper-slide v-for="(item, index) in slideList" :key="index">
-            <a :href="'/#/product/' + item.id"><img v-lazy="item.img" alt=""></a>
-
+            <a :href="'/#/product/' + item.id"><img v-lazy="item.img" alt="" /></a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
           <div class="swiper-button-prev" slot="button-prev"></div>
@@ -52,47 +51,42 @@
         </swiper>
       </div>
       <div class="ads-box">
-
         <a :href="'/#/product/' + item.id" v-for="(item, index) in adsList" :key="index">
-          <img v-lazy="item.img" alt="">
+          <img v-lazy="item.img" alt="" />
         </a>
-
       </div>
       <div class="banner">
-
         <a href="'/#/product/30'">
-          <img v-lazy="'/imgs/banner-1.png'" alt="">
+          <img v-lazy="'/imgs/banner-1.png'" alt="" />
         </a>
-
       </div>
-
     </div>
     <div class="product-box">
-
       <div class="container">
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
             <a href="/#/product/:35">
-              <img src="/imgs/mix-alpha.jpg" alt="">
+              <img src="/imgs/mix-alpha.jpg" alt="" />
             </a>
           </div>
           <div class="list-box">
             <div class="list" v-for="(arr, index) in phoneList" :key="index">
-
               <div class="item" v-for="(item, j) in arr" :key="j">
-                <span :class="[j % 2 === 0 ? 'new-pro' : 'kill-pro']">{{ j % 2 === 0 ? '新品' : '秒杀' }}</span>
+                <span :class="[j % 2 === 0 ? 'new-pro' : 'kill-pro']">{{
+                  j % 2 === 0 ? "新品" : "秒杀"
+                }}</span>
                 <div class="item-img">
-                  <img v-lazy="item.mainImage" alt="" @click="$router.push('/product/' + item.id)">
+                  <img v-lazy="item.mainImage" alt="" @click="$router.push('/product/' + item.id)" />
                   >
                 </div>
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
                   <p>{{ item.subtitle }}</p>
-                  <p class="price" @click="$router.push('/product/' + item.id)">{{ item.price }}元起
+                  <p class="price" @click="$router.push('/product/' + item.id)">
+                    {{ item.price }}元起
                     <span class="cart-icon" @click.stop="addCarts(item.id)"></span>
                   </p>
-
                 </div>
               </div>
             </div>
@@ -107,15 +101,14 @@
         <p>商品添加成功！</p>
       </template>
     </modal>
-
   </div>
 </template>
 
 <script>
-import ServiceBar from '@/components/ServiceBar/ServiceBar'
-import Modal from '@/components/Modal/modal'
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
+import ServiceBar from "@/components/ServiceBar/ServiceBar";
+import Modal from "@/components/Modal/modal";
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import "swiper/css/swiper.css";
 
 export default {
   name: "homeIndex",
@@ -123,122 +116,135 @@ export default {
     Swiper,
     SwiperSlide,
     ServiceBar,
-    Modal
+    Modal,
   },
   data() {
     return {
       swiperOption: {
         autoplay: true,
         loop: true,
-        effect: 'cube',
+        effect: "cube",
         cubeEffect: {
           shadowOffset: 100,
-          shadowScale: 0.6
+          shadowScale: 0.6,
         },
         pagination: {
-          el: '.swiper-pagination',
-          clickable: true
+          el: ".swiper-pagination",
+          clickable: true,
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
       },
-      slideList: [{
-        id: '42',
-        img: '/imgs/slider/slide-1.jpg',
-      }, {
-        id: '45',
-        img: '/imgs/slider/slide-2.jpg',
-      },
-      {
-        id: '46',
-        img: '/imgs/slider/slide-3.jpg',
-      },
-      {
-        id: '47',
-        img: '/imgs/slider/slide-4.jpg',
-      }
-
+      slideList: [
+        {
+          id: "42",
+          img: "/imgs/slider/slide-1.jpg",
+        },
+        {
+          id: "45",
+          img: "/imgs/slider/slide-2.jpg",
+        },
+        {
+          id: "46",
+          img: "/imgs/slider/slide-3.jpg",
+        },
+        {
+          id: "47",
+          img: "/imgs/slider/slide-4.jpg",
+        },
       ],
       menuList: [
         [
           {
             id: 30,
-            img: '/imgs/item-box-1.png',
-            name: '小米CC9',
-          }, {
+            img: "/imgs/item-box-1.png",
+            name: "小米CC9",
+          },
+          {
             id: 31,
-            img: '/imgs/item-box-2.png',
-            name: '小米8青春版',
-          }, {
+            img: "/imgs/item-box-2.png",
+            name: "小米8青春版",
+          },
+          {
             id: 32,
-            img: '/imgs/item-box-3.jpg',
-            name: 'Redmi K20 Pro',
-          }, {
+            img: "/imgs/item-box-3.jpg",
+            name: "Redmi K20 Pro",
+          },
+          {
             id: 33,
-            img: '/imgs/item-box-4.jpg',
-            name: '移动4G专区',
-          }
+            img: "/imgs/item-box-4.jpg",
+            name: "移动4G专区",
+          },
         ],
-        [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
       ],
       adsList: [
         {
           id: 33,
-          img: '/imgs/ads/ads-1.png',
-        }, {
+          img: "/imgs/ads/ads-1.png",
+        },
+        {
           id: 48,
-          img: '/imgs/ads/ads-2.jpg'
-        }, {
+          img: "/imgs/ads/ads-2.jpg",
+        },
+        {
           id: 45,
-          img: '/imgs/ads/ads-3.png'
-        }, {
+          img: "/imgs/ads/ads-3.png",
+        },
+        {
           id: 47,
-          img: '/imgs/ads/ads-4.jpg'
-        }
+          img: "/imgs/ads/ads-4.jpg",
+        },
       ],
       phoneList: [],
       showModal: false,
-    }
+    };
   },
   mounted() {
-    this.getPhoneList()
-  }, methods: {
+    this.getPhoneList();
+  },
+  methods: {
     getPhoneList() {
-      this.$api.product.getProductList({
-        categoryId: 100012,
-        pageSize: 14
-      }).then(res => {
-        this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]
-      })
+      this.$api.product
+        .getProductList({
+          categoryId: 100012,
+          pageSize: 14,
+        })
+        .then((res) => {
+          this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
+        });
     },
     addCarts(id) {
       if (this.$store.state.username === "") {
-        this.$message.error('请先登录！！！');
+        this.$message.error("请先登录！！！");
       } else {
-        this.$api.cart.addToCart({
-          productId: id,
-          selected: true
-        }).then((res) => {
-          this.showModal = true;
-          this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
-        });
+        this.$api.cart
+          .addToCart({
+            productId: id,
+            selected: true,
+          })
+          .then((res) => {
+            this.showModal = true;
+            this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
+          });
       }
-
     },
     goToCart() {
-      this.$router.push('/cart');
-    }
-  }
-
-}
-
+      this.$router.push("/cart");
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/config.scss';
-@import '@/assets/scss/mixin.scss';
+@import "@/assets/scss/config.scss";
+@import "@/assets/scss/mixin.scss";
 
 .index {
   .swiper-box {
@@ -267,8 +273,11 @@ export default {
               position: absolute;
               top: 17.5px;
               right: 30px;
-              content: ' ';
-              @include bgImg(10px, 15px, './../../../public/imgs/icon-arrow.png');
+              content: " ";
+              @include bgImg(10px,
+                15px,
+                "./../../../public/imgs/icon-arrow.png"
+              );
             }
           }
 
@@ -341,7 +350,6 @@ export default {
     a {
       width: 296px;
       height: 167px;
-
     }
   }
 
@@ -359,7 +367,6 @@ export default {
       line-height: 21px;
       color: $colorB;
       margin-bottom: 20px;
-
     }
 
     .wrapper {
@@ -399,11 +406,11 @@ export default {
               color: $colorG;
 
               &.new-pro {
-                background-color: #7ECF68;
+                background-color: #7ecf68;
               }
 
               &.kill-pro {
-                background-color: #E82626;
+                background-color: #e82626;
               }
             }
 
@@ -429,20 +436,22 @@ export default {
               }
 
               .price {
-                color: #F20A0A;
+                color: #f20a0a;
                 font-size: $fontJ;
                 font-weight: bold;
                 cursor: pointer;
 
                 .cart-icon:after {
-                  @include bgImg(22px, 22px, './../../../public/imgs/icon-cart-hover.png');
-                  content: ' ';
+                  @include bgImg(22px,
+                    22px,
+                    "./../../../public/imgs/icon-cart-hover.png"
+                  );
+                  content: " ";
                   margin-left: 5px;
                   vertical-align: middle;
                   margin-top: -6px;
                 }
               }
-
             }
           }
         }

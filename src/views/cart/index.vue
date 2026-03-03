@@ -81,7 +81,6 @@ export default {
     getCartList() {
       this.$api.cart.getCartList().then((res) => {
         this.renderData(res);
-        console.log("购物车里的数据", res);
       })
     },
     updateCart(item, type) {

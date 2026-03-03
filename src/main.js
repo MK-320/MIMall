@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import router from "@/router/router";
 import { Message } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css' //引入默认的Element-UI样式，有时候可以不用引入
+import 'element-ui/lib/theme-chalk/index.css' 
 //vue-axios的作用是将axios挂载到Vue的原型上，以便在Vue组件中使用，不然需要每个页面都import axios·
-
 import VueLazyLoad from "vue-lazyload";
 import VueCookie from "vue-cookie";
 import App from './App.vue'

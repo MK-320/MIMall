@@ -10,11 +10,12 @@
 
         </div>
         <div class="topbar-user">
-          <a href="javascript:;" v-if="username">{{username}}</a>
+          <a href="javascript:;" v-if="username">{{ username }}</a>
           <a href="javascript:;" v-if="!username" @click="login()">登录</a>
           <a href="javascript:;" v-if="username" @click="loginOut()">退出登录</a>
           <a href="javascript:;" v-if="username" @click="$router.push('/order/list')">我的订单</a>
-          <a href="javascript:;" class="my-cart" @click="goToCart()"><span class="icon-cart"></span> 购物车({{cartCount}})</a>
+          <a href="javascript:;" class="my-cart" @click="goToCart()"><span class="icon-cart"></span>
+            购物车({{ cartCount }})</a>
         </div>
       </div>
     </div>
@@ -28,13 +29,13 @@
             <span>小米手机</span>
             <div class="children">
               <ul>
-                <li class="product" v-for="(item ,index) in phoneList" :key="index">
-                  <a :href="'/#/product/'+item.id" target="_blank">
+                <li class="product" v-for="(item, index) in phoneList" :key="index">
+                  <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage"  :alt="item.subtitle">
+                      <img :src="item.mainImage" :alt="item.subtitle">
                     </div>
-                    <div class="pro-name">{{item.name}}</div>
-                    <div class="pro-price">{{item.price|currency}}</div>
+                    <div class="pro-name">{{ item.name }}</div>
+                    <div class="pro-price">{{ item.price | currency }}</div>
                   </a>
                 </li>
               </ul>
@@ -71,7 +72,7 @@
                     <div class="pro-img">
                       <img src="/imgs/nav-img/nav-3-3.png" alt="">
                     </div>
-                    <div class="pro-name">小米电视6 65"  OLED</div>
+                    <div class="pro-name">小米电视6 65" OLED</div>
                     <div class="pro-price">4899元</div>
                   </a>
                 </li>
@@ -80,7 +81,7 @@
                     <div class="pro-img">
                       <img src="/imgs/nav-img/nav-3-4.jpg" alt="">
                     </div>
-                    <div class="pro-name">小米电视 大师  77"  OLED</div>
+                    <div class="pro-name">小米电视 大师 77" OLED</div>
                     <div class="pro-price">5699元</div>
                   </a>
                 </li>
@@ -118,70 +119,71 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'nav-header',
-  data(){
-    return{
-      phoneList:[]
+  data() {
+    return {
+      phoneList: []
     }
   },
   mounted() {
-      this.getPhoneList();
-      let params=this.$route.params
-      if(params&&params.from==='login'){
-        this.getCartCount();
-      }
+    this.getPhoneList();
+    let params = this.$route.params
+    if (params && params.from === 'login') {
+      this.getCartCount();
+    }
 
 
   },
-  computed:{
-    ...mapState(['username','cartCount'])
+  computed: {
+    ...mapState(['username', 'cartCount'])
   },
 
-  filters:{
-    currency(val){
-      if(!val)return '0.00';
+  filters: {
+    currency(val) {
+      if (!val) return '0.00';
       return '￥' + val.toFixed(2) + '元';
     }
   },
-  methods:{
-    getPhoneList(){
+  methods: {
+    getPhoneList() {
       this.$api.product.getProductList({
-          categoryId:'100012',
-      }).then(res=>{
-         if(res.list.length>=6){
-          this.phoneList=res.list.slice(0,6)
+        categoryId: '100012',
+      }).then(res => {
+        if (res.list.length >= 6) {
+          this.phoneList = res.list.slice(0, 6)
         }
       })
     },
-    getCartCount(){
-      this.$api.cart.getCartSum().then((res=0) => {
-        this.$store.dispatch('saveCartCount',res);
+    getCartCount() {
+      this.$api.cart.getCartSum().then((res = 0) => {
+        this.$store.dispatch('saveCartCount', res);
       });
     },
-    goToCart(){
+    goToCart() {
       this.$router.push('/cart')
     },
-    login(){
+    login() {
       this.$router.push('/login')
     },
-    loginOut(){
-     this.$api.user.logout().then(()=>{
+    loginOut() {
+      this.$api.user.logout().then(() => {
         this.$message.success('退出登录成功');
-        this.$cookie.set('userId','',{expires:-1});
-       this.$store.dispatch('saveUserName','');
-       this.$store.dispatch('saveCartCount',0);
-     })
+        this.$cookie.set('token', '', { expires: -1 });
+        this.$store.dispatch('saveUserName', '');
+        this.$store.dispatch('saveCartCount', 0);
+      })
     },
 
   }
 }
 </script>
-<style lang="scss" >
+<style lang="scss">
 @import "@/assets/scss/base.scss";
 @import "@/assets/scss/mixin.scss";
 @import "@/assets/scss/config.scss";
+
 .header {
   .nav-topbar {
     height: 39px;
@@ -191,6 +193,7 @@ export default {
 
     .container {
       @include flex();
+
       a {
         display: inline-block;
         color: #B0B0B0;
@@ -203,8 +206,9 @@ export default {
         text-align: center;
         color: #FFFFFF;
         margin-right: 0;
+
         .icon-cart {
-          @include bgImg(16px,12px,'../../../public/imgs/icon-cart-checked.png');
+          @include bgImg(16px, 12px, '../../../public/imgs/icon-cart-checked.png');
           margin-right: 4px;
         }
       }
@@ -218,6 +222,7 @@ export default {
       position: relative;
       height: 112px;
       @include flex();
+
       .header-logo {
         display: inline-block;
         width: 55px;
@@ -231,13 +236,13 @@ export default {
 
           &:before {
             content: ' ';
-            @include bgImg(55px,55px,'../../../public/imgs/mi-logo.png',55px);
+            @include bgImg(55px, 55px, '../../../public/imgs/mi-logo.png', 55px);
             transition: margin .5s;
           }
 
           &:after {
             content: ' ';
-            @include bgImg(55px,55px,'../../../public/imgs/mi-home.png',55px);
+            @include bgImg(55px, 55px, '../../../public/imgs/mi-home.png', 55px);
           }
 
           &:hover:before {
@@ -251,6 +256,7 @@ export default {
         display: inline-block;
         padding-left: 209px;
         width: 643px;
+
         .item-menu {
           display: inline-block;
           color: #333333;
@@ -258,19 +264,22 @@ export default {
           font-size: 16px;
           line-height: 112px;
           margin-right: 18px;
+
           span {
             cursor: pointer;
           }
 
           &:hover {
             color: $colorA;
-            .children{
+
+            .children {
               height: 220px;
               opacity: 1;
 
             }
           }
-          .children{
+
+          .children {
             position: absolute;
             width: 1226px;
             height: 0;
@@ -279,11 +288,12 @@ export default {
             top: 112px;
             left: 0;
             border-top: 1px solid #E5E5E5;
-            box-shadow: 0px 7px 6px 0px rgba(0,0,0,.11);
+            box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, .11);
             z-index: 10;
-            transition:all .5s;
+            transition: all .5s;
             background-color: #ffffff;
-            .product{
+
+            .product {
               float: left;
               width: 16.6%;
               height: 220px;
@@ -291,37 +301,44 @@ export default {
               line-height: 12px;
               text-align: center;
               position: relative;
-              a{
-                display:inline-block;
+
+              a {
+                display: inline-block;
               }
-              img{
+
+              img {
                 width: auto;
                 height: 111px;
                 margin-top: 26px;
               }
-              .pro-img{
+
+              .pro-img {
                 height: 137px;
               }
-              .pro-name{
+
+              .pro-name {
                 font-weight: bold;
                 margin-top: 19px;
                 margin-bottom: 8px;
                 color: $colorB;
               }
-              .pro-price{
-                color:$colorA;
+
+              .pro-price {
+                color: $colorA;
               }
-              &:before{
-                content:' ';
-                position:absolute;
-                top:28px;
-                right:0;
-                border-left:1px solid $colorF;
-                height:100px;
-                width:1px;
+
+              &:before {
+                content: ' ';
+                position: absolute;
+                top: 28px;
+                right: 0;
+                border-left: 1px solid $colorF;
+                height: 100px;
+                width: 1px;
               }
-              &:last-child:before{
-                display:none;
+
+              &:last-child:before {
+                display: none;
               }
             }
           }
@@ -330,12 +347,14 @@ export default {
 
       .header-search {
         width: 319px;
+
         .wrapper {
           height: 50px;
           border: 1px solid #E0E0E0;
           display: flex;
           align-items: center;
-          input{
+
+          input {
             border: none;
             box-sizing: border-box;
             border-right: 1px solid #E0E0E0;
@@ -343,8 +362,9 @@ export default {
             height: 50px;
             padding-left: 15px;
           }
-          a{
-            @include bgImg(18px,18px,'../../../public/imgs/icon-search.png');
+
+          a {
+            @include bgImg(18px, 18px, '../../../public/imgs/icon-search.png');
             margin-left: 17px;
           }
         }

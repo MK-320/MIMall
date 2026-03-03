@@ -1,14 +1,31 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import VueCookie from 'vue-cookie'
 
 const service = axios.create({
   baseURL: '/api',
   timeout: 5000
 })
+// 拦截前端请求的拦截器，请求发出去之前就被拦截了
+service.interceptors.request.use(
+  config => {
+    const token = VueCookie.get('token')
+    // 拦截前端发起的请求，并从 cookie 获取 token
+    if (token) {
+      // 设置请求头
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 
 let isShowingError = false
 let errorTimer = null
 
+//这是一个 防抖函数 ，用于 防止短时间内重复显示多个相同的错误提示
 const showErrorOnce = (msg) => {
   if (isShowingError) return
 
@@ -20,14 +37,19 @@ const showErrorOnce = (msg) => {
     isShowingError = false
   }, 3000)
 }
-
+// 拦截后端的响应的拦截器
 service.interceptors.response.use(
   response => {
     const { data: res } = response
     const path = location.hash
     if (res.status == 0) {
+      if (res.msg) {
+        //这里提示的作用是为了提示用户未使用自己的环境变量 
+        Message.warning(res.msg)
+      }
       return res.data
     } else if (res.status == 10) {
+      showErrorOnce(res.msg || '登录已过期，请重新登录')
       if (path != '#/index') {
         window.location.href = '/#/login'
       }

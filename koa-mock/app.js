@@ -5,7 +5,7 @@ const Router = require('@koa/router')
 const app = new Koa()
 const router = new Router()
 
-// ========== CORS 中间件 ==========
+// ========== CORS 中间件  解决跨越==========
 app.use(async (ctx, next) => {
   ctx.set('Access-Control-Allow-Origin', 'http://localhost:8080')
   ctx.set('Access-Control-Allow-Credentials', 'true')

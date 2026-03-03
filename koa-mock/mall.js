@@ -1,6 +1,34 @@
 const Router = require('@koa/router')
 const fs = require('fs');
 const path = require('path');
+const jwt =require('jsonwebtoken')
+require('dotenv').config() 
+
+const JWT_SECRET = process.env.JWT_SECRET || 'default_dev_secret_key_12345'
+
+if (!process.env.JWT_SECRET) {
+  console.warn('⚠️  警告: 未设置 JWT_SECRET 环境变量，默认使用默认密钥（仅限开发环境）')
+  console.warn('⚠️  请复制 .env.example 为 .env 并配置你的密钥')
+}
+
+// JWT 验证中间件（Koa中会有多层中间件一层套一层就像洋葱）
+const jwtAuthMiddleware = async (ctx, next) => {
+  const authorization = ctx.headers.authorization || ''
+  const token = authorization.replace('Bearer ', '')
+
+  if (!token) {
+    ctx.body = { status: 10, msg: '未登录' }
+    return
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET)
+    ctx.state.user = decoded
+    await next() //返回的是一个promise对象，需要等待其他的所有中间件中间件执行瓦尼
+  } catch (error) {
+    ctx.body = { status: 10, msg: 'token无效或登录已过期' }
+  }
+}
 
 // 数据文件路径
 const dataFilePath = path.join(__dirname, 'data.json');
@@ -56,7 +84,7 @@ function saveUsersData(data) {
   }
 }
 
-module.exports = function(util) {
+module.exports = function() {
   // ============ 用户数据存储 ============
   // 模拟用户数据库，使用文件存储实现持久化
   const router = new Router({ prefix: '/api' })
@@ -122,19 +150,26 @@ router.post('/user/login', (ctx) => {
     
     // 验证用户名和密码
     if (user) {
-      ctx.cookies.set("mallUserId", user.id, {
-        maxAge: 8 * 60 * 60 * 1000,
+      const token = jwt.sign({
+        userId: user.id,
+        username: user.username
+      },
+      JWT_SECRET, {
+        expiresIn: '1d'
       });
-      ctx.cookies.set("mallUserName", user.username, {
-        maxAge: 8 * 60 * 60 * 1000,
-      });
-      ctx.body = {
+      // 构造一个返回体
+      const response = {
         status: 0,
         data: {
+          token,
           id: user.id,
           username: user.username
         }
       };
+      if (!process.env.JWT_SECRET) {
+        response.msg = '⚠️ 目前使用默认密钥，请配置 JWT_SECRET 环境变量'
+      }
+      ctx.body = response;
     } else {
       // 登录失败
       ctx.body = {
@@ -146,23 +181,41 @@ router.post('/user/login', (ctx) => {
 
   // ============ 获取用户信息 ============
   router.get('/user', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
+
+// 从请求头获取 token
+  const authorization = ctx.headers.authorization || ''
+  const token = authorization.replace('Bearer ', '')
+// 验证 token
+  if (!token) {
+    ctx.body = {
+      status: 10,
+      msg: '未登录'
     }
+    return
+  }
+  
+  try {
+    // 解析 token 获取用户信息
+    const decoded = jwt.verify(token, JWT_SECRET)
+    
     ctx.body = {
       status: 0,
       data: {
-        id: util.getCookie(ctx, 'mallUserId'),
-        username: util.getCookie(ctx, 'mallUserName')
+        id: decoded.userId,
+        username: decoded.username
       }
     }
+  } catch (error) {
+    ctx.body = {
+      status: 10,
+      msg: 'token无效或已过期'
+    }
+  }
+
   })
 
   // ============ 获取购物车数量 ============
-  router.get('/carts/products/sum', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.get('/carts/products/sum', jwtAuthMiddleware, (ctx) => {
     let total = 0
     cartProductVoList.map(item => {
       if (item.productSelected) {
@@ -177,9 +230,9 @@ router.post('/user/login', (ctx) => {
 
   // ============ 退出登录 ============
   router.post('/user/logout', (ctx) => {
-    ctx.cookies.set("mallUserId", '', {
-      maxAge: 0,
-    })
+    // ctx.cookies.set("mallUserId", '', {
+    //   maxAge: 0,
+    // })
     ctx.body = {
       status: 0,
       data: ''
@@ -358,10 +411,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 添加购物车 ============
-  router.post('/carts', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.post('/carts', jwtAuthMiddleware, (ctx) => {
     let total = 0
     const { productId } = ctx.request.body
     const isExist = cartProductVoList.filter(item => item.productId == productId)[0]
@@ -405,10 +455,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 获取购物车 ============
-  router.get('/carts', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.get('/carts', jwtAuthMiddleware, (ctx) => {
     ctx.body = {
       status: 0,
       data: {
@@ -420,10 +467,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 全选购物车 ============
-  router.put('/carts/selectAll', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.put('/carts/selectAll', jwtAuthMiddleware, (ctx) => {
     ctx.body = {
       status: 0,
       data: {
@@ -438,10 +482,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 取消全选 ============
-  router.put('/carts/unSelectAll', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.put('/carts/unSelectAll', jwtAuthMiddleware, (ctx) => {
     ctx.body = {
       status: 0,
       data: {
@@ -456,10 +497,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 更新购物车商品 ============
-  router.put('/carts/:id', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.put('/carts/:id', jwtAuthMiddleware, (ctx) => {
     const id = ctx.params.id
     const { quantity, selected } = ctx.request.body
     ctx.body = {
@@ -480,10 +518,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 删除购物车商品 ============
-  router.delete('/carts/:id', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.delete('/carts/:id', jwtAuthMiddleware, (ctx) => {
     const id = ctx.params.id
     cartProductVoList = cartProductVoList.filter(item => item.productId != id),
       ctx.body = {
@@ -519,10 +554,7 @@ router.post('/user/login', (ctx) => {
   ]
 
   // ============ 获取收货地址列表 ============
-  router.get('/shippings', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.get('/shippings', jwtAuthMiddleware, (ctx) => {
     ctx.body = {
       status: 0,
       data: {
@@ -532,10 +564,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 更新收货地址 ============
-  router.put('/shippings/:id', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.put('/shippings/:id', jwtAuthMiddleware, (ctx) => {
     const id = ctx.params.id
     const params = ctx.request.body
     const list = shippings.map(item => {
@@ -557,10 +586,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 删除收货地址 ============
-  router.delete('/shippings/:id', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.delete('/shippings/:id', jwtAuthMiddleware, (ctx) => {
     const id = ctx.params.id
     const index = shippings.findIndex(item => item.id == id)
     shippings.splice(index, 1)
@@ -571,11 +597,8 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 添加收货地址 ============
-  router.post('/shippings', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
-    const id = ctx.params.id
+  router.post('/shippings', jwtAuthMiddleware, (ctx) => {
+    
     const params = ctx.request.body
     shippings.push({
       id: new Date().getTime(),
@@ -588,11 +611,8 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 创建订单 ============
-  router.post('/orders', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
-    const id = ctx.params.id
+  router.post('/orders', jwtAuthMiddleware, (ctx) => {
+
     ctx.body = {
       status: 0,
       data: {
@@ -602,11 +622,8 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 获取订单详情 ============
-  router.get('/orders/:id', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
-    const id = ctx.params.id
+  router.get('/orders/:id', jwtAuthMiddleware, (ctx) => {
+
     ctx.body = {
       status: 0,
       data: {
@@ -618,10 +635,7 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 支付 ============
-  router.post('/pay', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
+  router.post('/pay', jwtAuthMiddleware, (ctx) => {
     ctx.body = {
       status: 10001,
       msg: '很抱歉，支付暂时无法使用。'
@@ -629,11 +643,8 @@ router.post('/user/login', (ctx) => {
   })
 
   // ============ 获取订单列表 ============
-  router.get('/orders', (ctx) => {
-    if (!util.checkLogin(ctx)) {
-      return
-    }
-    const id = ctx.params.id
+  router.get('/orders', jwtAuthMiddleware, (ctx) => {
+
     ctx.body = {
       status: 0,
       data: {

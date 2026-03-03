@@ -59,7 +59,7 @@ export default {
         username,
         password
       }).then((res) => {
-        this.$cookie.set('userId', res.id, { expires: 'Session' });
+        this.$cookie.set('token', res.token, { expires: 1 });
         this.saveUserName(res.username);
         this.$message.success('登录成功');
         this.$router.push({
